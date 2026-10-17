@@ -56,4 +56,4 @@ Question sections retain their stable IDs and can add questionPriority, question
 
 The route includes a local-lab instruction record. The public application contains no personal seed, tutorials copied from private documents, local script execution or automatic synchronization of lab state. Private sources supply those records to the protected workspace.
 
-22 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
+23 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.

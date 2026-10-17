@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
-import {beforeEach,afterEach,it,expect} from 'vitest';
+import {beforeEach,afterEach,it,expect,vi} from 'vitest';
 import {render,screen,fireEvent,cleanup,waitFor} from '@testing-library/react';
+import {cloudStore} from './store';
 import {Workspace} from './App';
 import {route,routeNeighbours,resumeId,resolveId,priorities,questions} from './preparation';
 import {validatePayload,parseBackup,backup} from './types';
@@ -54,4 +55,13 @@ it('reuses a question answer inside Learn and opens the same editable record',as
  fireEvent.click(screen.getByRole('button',{name:'Edit / notes'}));
  expect(await screen.findByRole('heading',{name:'Canonical question'})).toBeTruthy();
  expect(screen.getByText('One shared answer')).toBeTruthy();
+});
+
+it('does not show an empty question bank while the private backend is still loading',()=>{
+ window.history.replaceState(null,'','#interview-qa');
+ const spy=vi.spyOn(cloudStore,'list').mockImplementation(()=>new Promise(()=>{}));
+ render(<Workspace owner="waiting" preview={false} onExit={()=>{}}/>);
+ expect(screen.getByRole('heading',{name:'Connecting to your workspace…'})).toBeTruthy();
+ expect(screen.queryByText('Prepare first (0)')).toBeNull();
+ spy.mockRestore();
 });
