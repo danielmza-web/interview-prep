@@ -3,7 +3,7 @@ import {beforeEach,afterEach,it,expect,vi} from 'vitest';
 import {render,screen,fireEvent,cleanup,waitFor} from '@testing-library/react';
 import {cloudStore} from './store';
 import {Workspace} from './App';
-import {route,routeNeighbours,resumeId,resolveId,priorities,questions} from './preparation';
+import {route,routeNeighbours,resumeId,resolveId,priorities,questions,hashId} from './preparation';
 import {validatePayload,parseBackup,backup} from './types';
 import type {RecordRow,Section} from './types';
 const section:Section={kind:'section',title:'Lesson',subtitle:'Study',area:'Learn',order:1,body:'<p>Full explanation.</p>',core:false,minutes:15,archived:false};
@@ -18,10 +18,32 @@ it('follows all four sessions deterministically regardless of record order',()=>
  expect(new Set(route).size).toBe(route.length);
 });
 it('resumes from the saved position and tolerates old backups without it',()=>{
- expect(resumeId([row('practice_route',{kind:'practice',note:'',response:'',completed:false,resumeSectionId:'lab-guided'})])).toBe('lab-guided');
- expect(resumeId([])).toBe('learn-system');
+ expect(resumeId([row('lab-guided'),row('practice_route',{kind:'practice',note:'',response:'',completed:false,resumeSectionId:'lab-guided'})])).toBe('lab-guided');
+ expect(resumeId([row('learn-system')])).toBe('learn-system');
  expect(resolveId('ref-k8s-deep')).toBe('learn-delivery');
  expect(resolveId('ref-question-bank')).toBe('interview-qa');
+});
+it('skips archived or missing route steps and recovers a stale resume position',()=>{
+ const rows=[row('learn-system'),row('learn-network',{...section,archived:true}),row('learn-delivery'),row('practice_route',{kind:'practice',note:'',response:'',completed:false,resumeSectionId:'learn-network'})];
+ expect(routeNeighbours('learn-system',rows)).toEqual(['start','learn-delivery']);
+ expect(resumeId(rows)).toBe('learn-system');
+ expect(hashId('#%E0%A4%A')).toBe('start');
+ expect(hashId('#learn-network')).toBe('learn-network');
+});
+it('offers a persistent soft-night theme and keeps queued online edits distinct from connection failures',async()=>{
+ localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here'})]));
+ render(<Workspace owner="ui" preview onExit={()=>{}}/>);
+ await screen.findByText('Four sessions. One connected route.');
+ fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));
+ fireEvent.click(screen.getByRole('button',{name:'Use light mode'}));
+ expect(document.documentElement.dataset.theme).toBe('light');
+ expect(localStorage.getItem('fieldnotes-theme')).toBe('light');
+ fireEvent.click(screen.getByRole('button',{name:'Use soft night mode'}));
+ fireEvent.change(screen.getByLabelText('Personal notes'),{target:{value:'A useful observation'}});
+ expect(screen.getByRole('status').textContent).toContain('Saving');
+ Object.defineProperty(navigator,'onLine',{value:false,configurable:true});
+ fireEvent(window,new Event('offline'));
+ expect(screen.getByRole('status').textContent).toContain('Pending connection');
 });
 it('groups old question backups without optional priority fields into 24/30/12',()=>{const rows=[...Array.from({length:29},(_,i)=>row('question-b-'+String(i+1).padStart(2,'0'))),...Array.from({length:37},(_,i)=>row('question-t-'+String(i+1).padStart(2,'0')))];expect(priorities.map(p=>questions(rows,p).length)).toEqual([24,30,12]);});
 it('validates optional metadata and keeps schema one backups compatible',()=>{

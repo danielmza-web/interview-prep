@@ -2,6 +2,8 @@
 
 A private study workspace with cloud-saved editing, personal answers and notes, revision history and portable exports. The application is public; workspace data is not included in this repository or its build.
 
+Soft night is the default theme. Resources and tools offers a light-mode switch, saved in this browser only. Print exports always use a white page. Navigation skips archived route steps; malformed old hashes fall back to the start. Queued online changes show Saving, while offline or failed saves remain Pending connection until acknowledged.
+
 ## Development
 
 Node 24. Copy `.env.example` to `.env.local` and set the project's Supabase URL and **publishable** key. Never use a service-role or secret key in a `VITE_` variable.

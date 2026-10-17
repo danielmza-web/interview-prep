@@ -22,13 +22,17 @@ export function category(id:string,s:Section):string {
  return 'Resources';
 }
 export function resolveId(id:string){return aliases[id]||id;}
+export function hashId(hash:string){try{return decodeURIComponent(hash.replace(/^#/,''))||'start';}catch{return 'start';}}
+export function availableRoute(rows:RecordRow[]){return route.filter(id=>id==='start'||id==='interview-qa'&&rows.some(r=>r.id.startsWith('question-')&&r.payload.kind==='section'&&!r.payload.archived)||rows.some(r=>r.id===id&&r.payload.kind==='section'&&!r.payload.archived));}
 export function resumeId(rows:RecordRow[]):string {
+ const active=availableRoute(rows);
  const saved=rows.find(r=>r.id==='practice_route')?.payload as Practice|undefined;
- if(saved?.resumeSectionId&&route.includes(saved.resumeSectionId))return saved.resumeSectionId;
- return route.slice(1).find(id=>!rows.some(r=>r.id==='practice_'+id&&(r.payload as Practice).completed))||'rapid-review';
+ if(saved?.resumeSectionId&&active.includes(saved.resumeSectionId))return saved.resumeSectionId;
+ return active.slice(1).find(id=>!rows.some(r=>r.id==='practice_'+id&&(r.payload as Practice).completed))||'start';
 }
-export function routeNeighbours(id:string):[string|undefined,string|undefined]{
- const i=route.indexOf(resolveId(id));return i<0?['start','interview-qa']:[route[i-1],route[i+1]];
+export function routeNeighbours(id:string,rows?:RecordRow[]):[string|undefined,string|undefined]{
+ const current=rows?availableRoute(rows):route;
+ const i=current.indexOf(resolveId(id));return i<0?['start','interview-qa']:[current[i-1],current[i+1]];
 }
 const topicOrder=['Background and motivation','Ownership and coordination','Learning feedback and mentoring','Questions for the interviewer','Architecture and robots','Networks APIs and retries','Containers deployment and code','Messaging','SQL and observability','Incidents and diagnosis'];
 const firstIds=new Set('b01 b02 b03 b05 b06 b07 b08 b10 b11 b14 b20 b29 t01 t03 t04 t05 t10 t11 t14 t22 t23 t24 t26 t36'.split(' '));
