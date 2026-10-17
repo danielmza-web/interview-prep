@@ -3,8 +3,9 @@ import StarterKit from '@tiptap/starter-kit';
 import {TableKit} from '@tiptap/extension-table';
 import {useEffect} from 'react';
 import {safe} from './safe';
+import {DiagramNode} from './DiagramNode';
 export function Editor({value,onChange,label}:{value:string;onChange:(v:string)=>void;label:string}){
- const editor=useEditor({immediatelyRender:false,extensions:[StarterKit.configure({link:{openOnClick:false,HTMLAttributes:{rel:'noopener noreferrer'}}}),TableKit],content:safe(value),editorProps:{attributes:{class:'prose editor-content','aria-label':label,role:'textbox','aria-multiline':'true'}},onUpdate:({editor})=>{if(!editor.isDestroyed)onChange(editor.getHTML());}});
+ const editor=useEditor({immediatelyRender:false,extensions:[StarterKit.configure({link:{openOnClick:false,HTMLAttributes:{rel:'noopener noreferrer'}}}),TableKit,DiagramNode],content:safe(value),editorProps:{attributes:{class:'prose editor-content','aria-label':label,role:'textbox','aria-multiline':'true'}},onUpdate:({editor})=>{if(!editor.isDestroyed)onChange(editor.getHTML());}});
  useEffect(()=>{if(editor && !editor.isDestroyed && editor.getHTML()!==safe(value) && !editor.isFocused)editor.commands.setContent(safe(value),{emitUpdate:false});},[value,editor]);
  if(!editor)return null;
  return <div className="editor"><div className="editor-tools" role="toolbar" aria-label="Text formatting">{[

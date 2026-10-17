@@ -1,3 +1,10 @@
+# 18 October 2026
+
+- Added five application-defined diagrams with responsive layouts and theme-aware SVG. Editor, reading, search, Markdown, backup and history preserve their stable IDs and textual explanations.
+- Added explicit chapter-end review/practice actions and progress guidance, retaining ordinary navigation and the ability to unmark.
+- Preserved schema-1 HTML compatibility and limited graphic rendering to recognized IDs; no new dependency or database field.
+- Validation: 36 frontend tests, TypeScript build and public artifact privacy scan.
+
 # Changes
 
 ## 17 October 2026 — guided preparation

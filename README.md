@@ -4,6 +4,10 @@ A private study workspace with cloud-saved editing, personal answers and notes, 
 
 The four-hour route uses complete visible foundations and one optional deeper explanation per lesson. Optional content is editable, searchable, backed up and included in revision/conflict views. Older schema-1 backups remain compatible.
 
+Five versioned diagrams explain responsibilities, network layers, one-host containers, cluster containment and message distribution. Private HTML stores recognized diagram IDs only; the application renders its own responsive SVG. Text and captions remain editable. Imported SVG/scripts and unknown diagram IDs cannot become executable graphics. Search and Markdown include the diagram explanation; old backups need no new fields.
+
+Study progress counts explicit review/practice confirmations. The chapter-end action marks and continues; ordinary Next only navigates. Existing notes and reviewed flags remain independent of content updates.
+
 Soft night is the default theme. Resources and tools offers a light-mode switch, saved in this browser only. Print exports always use a white page. Navigation skips archived route steps; malformed old hashes fall back to the start. Queued online changes show Saving, while offline or failed saves remain Pending connection until acknowledged.
 
 ## Development
