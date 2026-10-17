@@ -55,9 +55,8 @@ function art(id:DiagramId,small:boolean){
  }
  return {w,h,s};
 }
-let sequence=0;
 export function diagramHTML(id:DiagramId){
- const d=diagrams[id],key='study-visual-'+ ++sequence;
- const svg=(small:boolean)=>{const {w,h,s}=art(id,small),uid=key+(small?'-small':'-wide');return `<svg class="${small?'diagram-narrow':'diagram-wide'}" viewBox="0 0 ${w} ${h}" role="img" aria-labelledby="${uid}" xmlns="http://www.w3.org/2000/svg"><title id="${uid}">${esc(d.title)}</title>${s}</svg>`;};
+ const d=diagrams[id];
+ const svg=(small:boolean)=>{const {w,h,s}=art(id,small);return `<svg class="${small?'diagram-narrow':'diagram-wide'}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(d.title)}" xmlns="http://www.w3.org/2000/svg"><title>${esc(d.title)}</title>${s}</svg>`;};
  return `<figure class="study-diagram" data-rendered-diagram="${id}"><figcaption>${esc(d.title)}</figcaption>${svg(false)}${svg(true)}<p class="diagram-equivalent">${esc(d.description)}</p><p class="diagram-legend">Nested frames mean contains. Arrows are labelled with the relationship.</p></figure>`;
 }

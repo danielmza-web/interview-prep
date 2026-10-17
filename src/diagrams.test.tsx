@@ -4,7 +4,7 @@ import {render,screen,fireEvent,cleanup,waitFor,within} from '@testing-library/r
 import {Editor as CoreEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {DiagramNode} from './DiagramNode';
-import {diagramPlaceholder,diagrams} from './diagrams';
+import {diagramPlaceholder,diagrams,diagramHTML} from './diagrams';
 import {safe,study,text,markdown} from './safe';
 import {backup,parseBackup,type RecordRow,type Section} from './types';
 import {Workspace} from './App';
@@ -18,8 +18,9 @@ it('accepts only known placeholders and never imported executable graphics',()=>
  const rendered=study(content);expect(rendered).toContain('role="img"');expect(rendered).toContain('data-rendered-diagram="cluster-v1"');expect(rendered).not.toContain('onload');
 });
 it('renders all five labelled diagrams with desktop/mobile alternatives and searchable/exportable explanations',()=>{
- for(const id of Object.keys(diagrams) as (keyof typeof diagrams)[]){const h=diagramPlaceholder(id);const content=study(h);expect(content.match(/<svg /g)).toHaveLength(2);expect(content).toContain('diagram-narrow');expect(content).toContain('aria-labelledby');expect(text(h)).toContain(diagrams[id].labels);expect(markdown(h)).toContain(diagrams[id].description);}
+ for(const id of Object.keys(diagrams) as (keyof typeof diagrams)[]){const h=diagramPlaceholder(id);const content=study(h);expect(content.match(/<svg /g)).toHaveLength(2);expect(content).toContain('diagram-narrow');expect(content).toContain('aria-label');expect(text(h)).toContain(diagrams[id].labels);expect(markdown(h)).toContain(diagrams[id].description);}
 });
+it('keeps display markup stable across background refreshes and note edits',()=>{expect(diagramHTML('cluster-v1')).toBe(diagramHTML('cluster-v1'));const h=diagramPlaceholder('single-host-v1');expect(study(h)).toBe(study(h));});
 it('keeps diagrams in schema-1 backups, rich text edits and editor reloads',()=>{
  const r=row('learn-system');expect(parseBackup(JSON.stringify(backup([r])))[0].payload).toEqual(r.payload);
  const editor=new CoreEditor({element:document.createElement('div'),extensions:[StarterKit,DiagramNode],content:safe(base.body)});
