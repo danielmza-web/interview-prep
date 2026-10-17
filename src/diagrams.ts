@@ -19,8 +19,8 @@ function art(id:DiagramId,small:boolean){
   h=small?670:560;const x=small?30:160,bw=small?280:320;
   s+=box(x,20,bw,75,['Factory systems / operator','MES · WMS · browser']);
   s+=box(x,170,bw,80,['Fleet service','allocate · record · report']);s+=arrow(w/2,95,w/2,170,'requests');
-  s+=box(x,335,bw,80,['Robot controller','local execution and state']);s+=arrow(w/2,250,w/2,335,'commands / reports');
-  const end=small?550:490;s+=box(x,end,bw,65,['Robot / transfer equipment','physical work and signals']);s+=arrow(w/2,415,w/2,end,'equipment handshake');
+  s+=box(x,335,bw,80,['Robot controller','local execution and state']);s+=arrow(w/2,250,w/2,335,'commands / reports');s+=arrow(w/2,335,w/2,250);
+  const end=small?550:490;s+=box(x,end,bw,65,['Robot / transfer equipment','physical work and signals']);s+=arrow(w/2,415,w/2,end,'equipment handshake');s+=arrow(w/2,end,w/2,415);
  }
  if(id==='network-v1'){
   h=610;const x=small?20:120,bw=small?300:400;
