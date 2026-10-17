@@ -1,6 +1,6 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
 import type {Draft,Payload,RecordRow} from './types';
-import {resolveDraft} from './types';
+import {resolveDraft,validatePayload} from './types';
 import {ConflictError,draftsFor} from './store';
 import type {Store} from './store';
 export function useWorkspace(store:Store,owner:string){
@@ -15,6 +15,7 @@ export function useWorkspace(store:Store,owner:string){
   if(busy.current||!navigator.onLine)return;busy.current=true;setSaving(true);
   try{for(const [id,d]of Object.entries(drafts.current)){
    if(blocked.current.has(id))continue;
+   if(!validatePayload(d.payload)){setError('This draft needs a valid title and section settings before it can be saved. Your draft stays on this device.');continue;}
    try{const saved=await store.save(id,d.payload,d.expected);replaceRows([...remote.current.filter(r=>r.id!==id),saved]);
     const latest=drafts.current[id];if(latest?.stamp===d.stamp){const n={...drafts.current};delete n[id];publish(n);}else if(latest){publish({...drafts.current,[id]:{...latest,expected:saved.version}});}setError('');
    }catch(e){if(e instanceof ConflictError){const latest=await store.list();replaceRows(latest);const current=drafts.current[id];if(current&&resolveDraft(latest.find(r=>r.id===id),current)==='already-saved'){const n={...drafts.current};delete n[id];publish(n);}else{blocked.current.add(id);setConflicts([...blocked.current]);}}else{setError('Changes are pending on this device. Reconnect or resume your Supabase project, then retry.');break;}}
