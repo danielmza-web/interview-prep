@@ -23,6 +23,7 @@ begin
   if jsonb_typeof(new_payload->'note') is distinct from 'string' or jsonb_typeof(new_payload->'response') is distinct from 'string' or jsonb_typeof(new_payload->'completed') is distinct from 'boolean' then raise exception 'INVALID_PRACTICE';end if;
  else raise exception 'INVALID_KIND';end if;
  -- Optional fields remain compatible with schema-1 backups.
+ if new_payload ? 'deepBody' and jsonb_typeof(new_payload->'deepBody') <> 'string' then raise exception 'INVALID_DEEP_CONTENT';end if;
  if new_payload ? 'printBody' and jsonb_typeof(new_payload->'printBody') <> 'string' then raise exception 'INVALID_PRINT_SUMMARY';end if;
  if new_payload ? 'printOrder' and jsonb_typeof(new_payload->'printOrder') <> 'number' then raise exception 'INVALID_PRINT_ORDER';end if;
  if new_payload ? 'questionTopic' and (jsonb_typeof(new_payload->'questionTopic') <> 'string' or length(new_payload->>'questionTopic')>120) then raise exception 'INVALID_QUESTION_TOPIC';end if;

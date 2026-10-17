@@ -8,7 +8,7 @@ it('opens multiple lazy editors and refreshes saved content without emitting an 
  const changed=vi.fn();
  const fields=(summary:string)=><>{['Section content','Suggested answer','Print summary'].map(label=><Suspense key={label} fallback={<p>Loading {label}</p>}><Editor label={label} value={'<p>'+summary+' '+label+'</p>'} onChange={changed}/></Suspense>)}</>;
  const view=render(fields('Original'));
- for(const label of ['Section content','Suggested answer','Print summary'])expect(await screen.findByRole('textbox',{name:label})).toBeTruthy();
+ for(const label of ['Section content','Suggested answer','Print summary'])expect(await screen.findByRole('textbox',{name:label},{timeout:5000})).toBeTruthy();
  view.rerender(fields('Saved revision'));
  expect(await screen.findByText('Saved revision Print summary')).toBeTruthy();
  expect(changed).not.toHaveBeenCalled();

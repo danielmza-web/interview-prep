@@ -2,6 +2,8 @@
 
 A private study workspace with cloud-saved editing, personal answers and notes, revision history and portable exports. The application is public; workspace data is not included in this repository or its build.
 
+The four-hour route uses complete visible foundations and one optional deeper explanation per lesson. Optional content is editable, searchable, backed up and included in revision/conflict views. Older schema-1 backups remain compatible.
+
 Soft night is the default theme. Resources and tools offers a light-mode switch, saved in this browser only. Print exports always use a white page. Navigation skips archived route steps; malformed old hashes fall back to the start. Queued online changes show Saving, while offline or failed saves remain Pending connection until acknowledged.
 
 ## Development

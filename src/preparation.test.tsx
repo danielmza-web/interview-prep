@@ -3,7 +3,7 @@ import {beforeEach,afterEach,it,expect,vi} from 'vitest';
 import {render,screen,fireEvent,cleanup,waitFor} from '@testing-library/react';
 import {cloudStore} from './store';
 import {Workspace} from './App';
-import {route,routeNeighbours,resumeId,resolveId,priorities,questions,hashId} from './preparation';
+import {route,sessions,routeNeighbours,resumeId,resolveId,priorities,questions,hashId} from './preparation';
 import {validatePayload,parseBackup,backup} from './types';
 import type {RecordRow,Section} from './types';
 const section:Section={kind:'section',title:'Lesson',subtitle:'Study',area:'Learn',order:1,body:'<p>Full explanation.</p>',core:false,minutes:15,archived:false};
@@ -16,6 +16,7 @@ it('follows all four sessions deterministically regardless of record order',()=>
  expect(routeNeighbours('lab-guided')[1]).toBe('practice-profile');
  expect(routeNeighbours('interview-qa')[1]).toBe('rapid-review');
  expect(new Set(route).size).toBe(route.length);
+ expect(sessions.reduce((sum,s)=>sum+s.minutes,10)).toBe(240);
 });
 it('resumes from the saved position and tolerates old backups without it',()=>{
  expect(resumeId([row('lab-guided'),row('practice_route',{kind:'practice',note:'',response:'',completed:false,resumeSectionId:'lab-guided'})])).toBe('lab-guided');
@@ -47,9 +48,9 @@ it('offers a persistent soft-night theme and keeps queued online edits distinct 
 });
 it('groups old question backups without optional priority fields into 24/30/12',()=>{const rows=[...Array.from({length:29},(_,i)=>row('question-b-'+String(i+1).padStart(2,'0'))),...Array.from({length:37},(_,i)=>row('question-t-'+String(i+1).padStart(2,'0')))];expect(priorities.map(p=>questions(rows,p).length)).toEqual([24,30,12]);});
 it('validates optional metadata and keeps schema one backups compatible',()=>{
- const p={...section,printBody:'<p>Short edition</p>',questionIds:['question-t-01'],questionPriority:'Prepare first',questionTopic:'Architecture'};
+ const p={...section,printBody:'<p>Short edition</p>',deepBody:'<p>Additional worked example</p>',questionIds:['question-t-01'],questionPriority:'Prepare first',questionTopic:'Architecture'};
  expect(parseBackup(JSON.stringify(backup([row('learn-system',p as Section)])))[0].payload).toEqual(p);
- for(const invalid of [{questionPriority:'90% likely'},{questionIds:['question-t-01','question-t-01']},{questionTopic:123},{printBody:[]},{printOrder:'first'}])expect(validatePayload({...p,...invalid})).toBe(false);
+ for(const invalid of [{questionPriority:'90% likely'},{questionIds:['question-t-01','question-t-01']},{questionTopic:123},{printBody:[]},{deepBody:[]},{deepBody:null},{printOrder:'first'}])expect(validatePayload({...p,...invalid})).toBe(false);
  expect(validatePayload({kind:'practice',note:'',response:'',completed:false,resumeSectionId:'../../oops'})).toBe(false);
 });
 it('renders 66 visible answers in 24/30/12 groups and keeps administration secondary',async()=>{
