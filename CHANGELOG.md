@@ -10,4 +10,5 @@ Added validated optional metadata and dedicated print summaries while retaining 
 - Added a blue-grey soft-night default and persistent optional light theme, including login, editor, tables, histories and readable question answers. Print remains white.
 - Put the ten-minute cue sheet before detailed interview-day support.
 - Corrected queued-save status, malformed hashes and archived route/resume handling.
-- Added regression coverage for theme preference, offline status and stale route positions; 26 application tests pass.
+- Added regression coverage for theme preference, offline status, stale route positions and simultaneous editor opening; 27 application tests pass.
+- Initialise visual editors after mounting so lazy fields cannot access a destroyed editor during opening.
