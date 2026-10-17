@@ -1,5 +1,5 @@
 import {ThemeToggle} from './theme';
-import {useEffect,useMemo,useRef,useState,lazy,Suspense} from 'react';
+import {useEffect,useMemo,useRef,useState,lazy,Suspense,Component} from 'react';
 import {BookOpen,ArrowRight,ArrowLeft,Search,Compass,MessageSquare,Library,Briefcase,Plus,Menu,X,Check,Cloud,Download,Upload,Printer,LogOut,Pencil,Archive,History,ChevronUp,ChevronDown,ShieldCheck,ArrowUpRight,RotateCcw} from 'lucide-react';
 import type {Session} from '@supabase/supabase-js';
 import {supabase,cloudStore,localStore} from './store';
@@ -9,7 +9,12 @@ import {study,text,markdown,download} from './safe';
 import {route,sessions,resolveId,resumeId,routeNeighbours,category,questions,priorities,hashId,availableRoute} from './preparation';
 import {useWorkspace} from './useWorkspace';
 const Editor=lazy(()=>import('./Editor').then(m=>({default:m.Editor})));
-function EditField(props:React.ComponentProps<typeof Editor>){return <Suspense fallback={<p>Opening editor…</p>}><Editor {...props}/></Suspense>;}
+class EditorBoundary extends Component<{children:React.ReactNode},{failed:boolean}>{
+ state={failed:false};
+ static getDerivedStateFromError(){return {failed:true};}
+ render(){return this.state.failed?<div className="banner" role="alert"><strong>The editor could not load.</strong><p>Your saved content and local recovery drafts remain available. Reconnect if needed, then reload to get the current editor.</p><button onClick={()=>location.reload()}>Reload the workspace</button></div>:this.props.children;}
+}
+function EditField(props:React.ComponentProps<typeof Editor>){return <EditorBoundary><Suspense fallback={<p>Opening editor…</p>}><Editor {...props}/></Suspense></EditorBoundary>;}
 const icons=[Compass,BookOpen,MessageSquare,Briefcase];
 const navigation=['Your route','Learn','Interview Q&A','My Experience'];
 const emptyPractice:Practice={kind:'practice',note:'',response:'',completed:false};
