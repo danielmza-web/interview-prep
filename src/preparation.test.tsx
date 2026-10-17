@@ -71,7 +71,7 @@ it('opens a route link at the beginning of its reading rather than keeping the o
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here',title:'Route home'}),row('learn-system',{...section,title:'First lesson'})]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
  await screen.findByText('Four sessions. One connected route.');
- fireEvent.click(screen.getByRole('link',{name:'First lesson',exact:true}));
- expect(await screen.findByRole('heading',{name:'First lesson',exact:true})).toBeTruthy();
+ fireEvent.click(screen.getByRole('link',{name:'First lesson'}));
+ expect(await screen.findByRole('heading',{name:'First lesson'})).toBeTruthy();
  expect(scroll).toHaveBeenCalledWith({block:'start'});
 });
