@@ -2,9 +2,9 @@
 
 A private study workspace with cloud-saved editing, personal answers and notes, revision history and portable exports. The application is public; workspace data is not included in this repository or its build.
 
-The four-hour route uses complete visible foundations and one optional deeper explanation per lesson. Optional content is editable, searchable, backed up and included in revision/conflict views. Older schema-1 backups remain compatible.
+The four-session route uses complete visible foundations and one optional deeper explanation per lesson. Optional content is editable, searchable, backed up and included in revision/conflict views. Older schema-1 backups remain compatible.
 
-Five versioned diagrams explain responsibilities, network layers, one-host containers, cluster containment and message distribution. Private HTML stores recognized diagram IDs only; the application renders its own responsive SVG. Text and captions remain editable. Imported SVG/scripts and unknown diagram IDs cannot become executable graphics. Search and Markdown include the diagram explanation; old backups need no new fields.
+Eight versioned diagrams explain responsibilities, network layers, one-host containers, cluster containment and message distribution. Private HTML stores recognized diagram IDs only; the application renders its own responsive SVG. Text and captions remain editable. Imported SVG/scripts and unknown diagram IDs cannot become executable graphics. Search and Markdown include the diagram explanation; old backups need no new fields.
 
 Study progress counts explicit review/practice confirmations. The chapter-end action marks and continues; ordinary Next only navigates. Existing notes and reviewed flags remain independent of content updates.
 
@@ -64,16 +64,16 @@ Question sections retain their stable IDs and can add questionPriority, question
 
 The route includes a local-lab instruction record. The public application contains no personal seed, tutorials copied from private documents, local script execution or automatic synchronization of lab state. Private sources supply those records to the protected workspace.
 
-55 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
+56 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
 
 
 ## Quick explanations and four sessions
 
 The route totals 270 minutes (75 + 70 + 60 + 65), plus a ten-minute final review. Dotted terms open one concise explanation by pointer, keyboard or tap. Essential definitions stay in the chapter. Chapters, related answers and the full bank share help once per concept in each paragraph, cell, list item or heading, including inline code.
 
-The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 200 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migrations 003/004 validate entries and the 200-entry limit; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
+The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 240 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migrations 003/004 validate entries and the current 240-entry limit; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
 
-55 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
+56 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
 
 
 ## Code reading and visual explanations
@@ -81,3 +81,8 @@ The private ref-glossary section supplies optional glossaryTerms entries (stable
 Highlight.js 11.11.1 is pinned and bundled with only the supported grammars. Reading uses explicit language classes on code inside pre; unknown or absent metadata stays plain text. The sanitizer keeps only the allowed language class and strips imported token styling. Colours and language labels are generated after sanitization, never saved; source text is unchanged. The editor remains plain and offers a language selector when its cursor enters a code block. Markdown preserves the language hint.
 
 The diagram registry now has eight safe IDs, including mission lifecycle, rolling/canary comparison and message recovery. Desktop and mobile variants share text equivalents. Private teaching content and its coverage matrix remain outside this public repository. The local private-fixture audit is ignored by Git and is not included in the public CI test count.
+
+
+## Robotics vocabulary compatibility
+
+The shared glossary accepts up to 240 concise concepts. Acronym plurals and full names are explicit aliases; comparison tables receive the same contextual help as other paragraphs/cells. Current validation-contract.sql is the applied RPC contract, including the robotics_glossary_capacity update after migrations 003/004. No table, grant, owner check or policy changed. Private vocabulary comparisons remain in the protected workspace.

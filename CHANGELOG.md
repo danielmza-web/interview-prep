@@ -1,3 +1,9 @@
+# 18 October 2026 — robotics vocabulary capacity
+
+- Expanded the shared glossary limit from 200 to 240 in editing, validation/import and the existing protected save contract.
+- Added regression coverage for plural acronyms and full names split by formatting in comparison cells. Reading behaviour, saved notes and route progress are unchanged.
+- 56 public application tests; private teaching tables remain outside this repository.
+
 # 18 October 2026
 
 - Added five application-defined diagrams with responsive layouts and theme-aware SVG. Editor, reading, search, Markdown, backup and history preserve their stable IDs and textual explanations.
