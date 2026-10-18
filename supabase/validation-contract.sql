@@ -42,7 +42,7 @@ begin
  -- Optional glossary entries use the existing versioned payload.
  if new_payload ? 'glossaryTerms' then
   if new_payload->>'kind'<>'section' or jsonb_typeof(new_payload->'glossaryTerms') is distinct from 'array' then raise exception 'INVALID_GLOSSARY';end if;
-  if jsonb_array_length(new_payload->'glossaryTerms')>80 then raise exception 'INVALID_GLOSSARY';end if;
+  if jsonb_array_length(new_payload->'glossaryTerms')>200 then raise exception 'INVALID_GLOSSARY';end if;
   if (select count(*)<>count(distinct x->>'id') from jsonb_array_elements(new_payload->'glossaryTerms') x) then raise exception 'INVALID_GLOSSARY';end if;
   for glossary_item in select value from jsonb_array_elements(new_payload->'glossaryTerms') loop
    if jsonb_typeof(glossary_item) is distinct from 'object'

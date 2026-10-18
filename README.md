@@ -69,8 +69,15 @@ The route includes a local-lab instruction record. The public application contai
 
 ## Quick explanations and four sessions
 
-The route totals 270 minutes (75 + 70 + 60 + 65), plus a ten-minute final review. Dotted terms open one concise explanation by pointer, keyboard or tap. Essential definitions stay in the chapter. Related answers inside a chapter remain plain; the full bank offers help per answer.
+The route totals 270 minutes (75 + 70 + 60 + 65), plus a ten-minute final review. Dotted terms open one concise explanation by pointer, keyboard or tap. Essential definitions stay in the chapter. Chapters, related answers and the full bank share help once per concept in each paragraph, cell, list item or heading, including inline code.
 
-The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 80 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migration 003 validate entries; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
+The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 200 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migrations 003/004 validate entries and the 200-entry limit; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
 
-48 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
+55 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
+
+
+## Code reading and visual explanations
+
+Highlight.js 11.11.1 is pinned and bundled with only the supported grammars. Reading uses explicit language classes on code inside pre; unknown or absent metadata stays plain text. The sanitizer keeps only the allowed language class and strips imported token styling. Colours and language labels are generated after sanitization, never saved; source text is unchanged. The editor remains plain and offers a language selector when its cursor enters a code block. Markdown preserves the language hint.
+
+The diagram registry now has eight safe IDs, including mission lifecycle, rolling/canary comparison and message recovery. Desktop and mobile variants share text equivalents. Private teaching content and its coverage matrix remain outside this public repository. The local private-fixture audit is ignored by Git and is not included in the public CI test count.
