@@ -4,9 +4,40 @@ import {render,screen,fireEvent,cleanup,act,waitFor,within} from '@testing-libra
 import {annotateTerms,GlossaryProvider,StudyContent,GlossaryEntries} from './Glossary';
 import {validGlossary,validatePayload,backup,parseBackup,type Section,type GlossaryTerm,type RecordRow} from './types';
 import {Workspace} from './App';
+import {groupGlossary} from './glossaryTopics';
 const term:GlossaryTerm={id:'term-pod',term:'Pod',aliases:['workload unit'],definition:'A workload unit containing containers.',purpose:'Groups related containers.',example:'One API Pod runs an API replica.'};
 const base:Section={kind:'section',title:'Concepts',subtitle:'Read and connect',area:'Learn',order:1,body:'<p>A Pod contains containers. Another Pod.</p>',core:false,minutes:20,archived:false};
 const row=(id:string,payload:Section):RecordRow=>({id,payload,version:1,updated_at:'2026-10-18'});
+it('groups by stable IDs and keeps custom entries in a discoverable topic',()=>{
+ const custom={...term,id:'term-my-custom-concept',term:'Custom'};
+ expect(groupGlossary([{...term,term:'Renamed workload unit'},custom]).map(g=>[g.title,g.terms.length])).toEqual([['Containers and deployments',1],['Other concepts',1]]);
+});
+it('shows compact meanings, opens detail by keyboard and searches every topic',()=>{
+ const robot={...term,id:'term-agv',term:'AGV',definition:'A guided vehicle.',purpose:'Move material.',example:'Deliver a pallet.'};
+ render(<GlossaryEntries terms={[term,robot]} editing={false} onChange={()=>{}}/>);
+ expect(screen.getByLabelText('Topic').getAttribute('value')).toBeNull();
+ expect((screen.getByLabelText('Topic') as HTMLSelectElement).value).toBe('robots');
+ expect(screen.getByText('A guided vehicle.').closest('details')?.open).toBe(false);
+ const summary=screen.getByText('AGV').closest('summary')!;summary.focus();expect(document.activeElement).toBe(summary);
+ fireEvent.click(summary);expect(screen.getByText('A guided vehicle.').closest('details')?.open).toBe(true);
+ expect(screen.getByText(/Deliver a pallet/)).toBeTruthy();
+ fireEvent.change(screen.getByLabelText('Find a term'),{target:{value:'replica'}});
+ expect(screen.getByText('Pod')).toBeTruthy();expect(screen.queryByText('AGV')).toBeNull();
+ fireEvent.change(screen.getByLabelText('Topic'),{target:{value:'robots'}});expect(screen.getByText('AGV')).toBeTruthy();
+});
+it('provides sidebar shortcuts and carries workspace search into the compact glossary',async()=>{
+ const g={...base,title:'Quick glossary',area:'Reference' as const,body:'<p>Comparison content.</p>',glossaryTerms:[term]};
+ localStorage.setItem('fieldnotes-preview-shortcuts',JSON.stringify([row('learn-system',base),row('ref-glossary',g),row('rapid-review',{...base,title:'Day support'})]));
+ render(<Workspace owner="shortcuts" preview onExit={()=>{}}/>);await screen.findByRole('heading',{name:'Concepts'});
+ const nav=screen.getByRole('navigation',{name:'Quick access'});
+ expect(within(nav).getByRole('button',{name:'Interview day'})).toBeTruthy();
+ fireEvent.click(within(nav).getByRole('button',{name:'Glossary'}));await screen.findByRole('heading',{name:'Quick glossary'});
+ expect(within(nav).getByRole('button',{name:'Glossary'}).getAttribute('aria-current')).toBe('page');
+ expect(screen.getByText('Compare related concepts · optional tables').closest('details')?.open).toBe(false);
+ fireEvent.change(screen.getByRole('textbox',{name:'Search your workspace'}),{target:{value:'replica'}});
+ fireEvent.click(screen.getByRole('button',{name:/Quick glossary/}));
+ expect((screen.getByLabelText('Find a term') as HTMLInputElement).value).toBe('replica');
+});
 it('explains acronym plurals and full names in comparison cells without partial matches',()=>{
  const agv={...term,id:'term-agv',term:'AGV',aliases:['AGVs','automated guided vehicle','automated guided vehicles']};
  const amr={...term,id:'term-amr',term:'AMR',aliases:['AMRs','autonomous mobile robot']};

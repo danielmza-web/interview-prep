@@ -64,7 +64,7 @@ Question sections retain their stable IDs and can add questionPriority, question
 
 The route includes a local-lab instruction record. The public application contains no personal seed, tutorials copied from private documents, local script execution or automatic synchronization of lab state. Private sources supply those records to the protected workspace.
 
-56 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
+59 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
 
 
 ## Quick explanations and four sessions
@@ -73,7 +73,7 @@ The route totals 270 minutes (75 + 70 + 60 + 65), plus a ten-minute final review
 
 The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 240 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migrations 003/004 validate entries and the current 240-entry limit; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
 
-56 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
+59 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.
 
 
 ## Code reading and visual explanations
@@ -86,3 +86,10 @@ The diagram registry now has eight safe IDs, including mission lifecycle, rollin
 ## Robotics vocabulary compatibility
 
 The shared glossary accepts up to 240 concise concepts. Acronym plurals and full names are explicit aliases; comparison tables receive the same contextual help as other paragraphs/cells. Current validation-contract.sql is the applied RPC contract, including the robotics_glossary_capacity update after migrations 003/004. No table, grant, owner check or policy changed. Private vocabulary comparisons remain in the protected workspace.
+
+
+## Compact glossary and sidebar access
+
+Glossary and Interview day are persistent shortcuts under Quick access in the left navigation, including the mobile drawer. Glossary defaults to its first available topic, sorts entries alphabetically and shows two-line definition previews. Eight topic groups use stable generic concept IDs; custom concepts remain discoverable in Other concepts. Search always spans terms, aliases, meanings, purposes and examples across all topics, including searches carried from the workspace search.
+
+Opening a native details row reveals the full definition, aliases, purpose and example. Reading truncation is CSS only; editing, hover help, exports, backups and history keep every complete string. The existing comparison body is a separate collapsed optional block. No content record, database contract, permission, study flag or resume record is changed by this presentation release.

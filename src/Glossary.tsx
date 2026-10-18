@@ -1,6 +1,7 @@
 import {createContext,useContext,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import type {GlossaryTerm} from './types';
+import {groupGlossary} from './glossaryTopics';
 import {study} from './safe';
 import {highlightCode} from './codeReading';
 
@@ -69,8 +70,34 @@ export function StudyContent({html,annotate=true}:{html:string;annotate?:boolean
  const target=(node:EventTarget|null)=>{const b=(node as HTMLElement)?.closest?.('button[data-term-id]') as HTMLElement|null;const term=help.terms.find(t=>t.id===b?.dataset.termId);return b&&term?{b,term}:null;};
  return <div className="prose" onPointerDown={()=>{pointer.current=true;}} onPointerOver={e=>{if(e.pointerType==='touch')return;const t=target(e.target);if(!t||t.b.contains(e.relatedTarget as Node))return;help.cancel();clearTimeout(hover.current);hover.current=setTimeout(()=>help.show(t.term,t.b),300);}} onPointerOut={e=>{const t=target(e.target);if(!t||t.b.contains(e.relatedTarget as Node))return;clearTimeout(hover.current);help.schedule();}} onFocus={e=>{const t=target(e.target);if(t&&!pointer.current)help.show(t.term,t.b);}} onBlur={e=>{pointer.current=false;if(!document.getElementById('term-explanation')?.contains(e.relatedTarget as Node))help.close();}} onClick={e=>{const t=target(e.target);if(t){clearTimeout(hover.current);if(help.open?.anchor===t.b)help.close();else help.show(t.term,t.b);pointer.current=false;}}} dangerouslySetInnerHTML={{__html:marked}}/>;
 }
-export function GlossaryEntries({terms,editing,onChange}:{terms:GlossaryTerm[];editing:boolean;onChange:(terms:GlossaryTerm[])=>void}){
- const [query,setQuery]=useState(''),[error,setError]=useState('');const selected=terms.filter(t=>glossaryText([t]).toLowerCase().includes(query.toLowerCase()));
+export function GlossaryEntries({terms,editing,onChange,initialQuery=''}:{terms:GlossaryTerm[];editing:boolean;onChange:(terms:GlossaryTerm[])=>void;initialQuery?:string}){
+ const [query,setQuery]=useState(initialQuery),[topic,setTopic]=useState(()=>groupGlossary(terms)[0]?.id||'all'),[error,setError]=useState('');
+ useEffect(()=>{setQuery(initialQuery);},[initialQuery]);
+ const groups=groupGlossary(terms),activeTopic=groups.some(g=>g.id===topic)?topic:'all';
+ const selected=terms.filter(t=>glossaryText([t]).toLowerCase().includes(query.toLowerCase())&&(query||activeTopic==='all'||groups.find(g=>g.id===activeTopic)?.terms.some(v=>v.id===t.id)));
  const update=(id:string,key:keyof GlossaryTerm,value:string)=>{const next=terms.map(t=>t.id===id?{...t,[key]:key==='aliases'?(value.trim()?value.split(',').map(s=>s.trim()):[]):value}:t);onChange(next);};
- return <section className="glossary-entries"><label className="field-label">Find a term<input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search terms, definitions and examples"/></label><p>{selected.length} of {terms.length} concepts. Dotted terms in chapters open these same explanations.</p>{error&&<p role="alert">{error}</p>}{editing&&<button onClick={()=>{if(terms.length>=240){setError('Keep up to 240 concepts.');return;}onChange([...terms,{id:'term-'+crypto.randomUUID(),term:'New concept',aliases:[],definition:'Add a clear definition.',purpose:'Explain its purpose.',example:'Connect it to a mission.'}]);setQuery('New concept');}}>Add concept</button>}{selected.map(t=><article key={t.id} className="glossary-entry">{editing?<><label className="field-label">Term<input maxLength={100} value={t.term} onChange={e=>update(t.id,'term',e.target.value)}/></label><label className="field-label">Other names separated by commas<input value={t.aliases.join(', ')} onChange={e=>update(t.id,'aliases',e.target.value)}/></label>{(['definition','purpose','example'] as const).map(k=><label key={k} className="field-label">{k==='definition'?'What it means':k==='purpose'?'Why it matters':'Example'}<textarea maxLength={1200} rows={2} value={t[k]} onChange={e=>update(t.id,k,e.target.value)}/></label>)}<p>{[t.definition,t.purpose,t.example].join(' ').trim().split(/\s+/).length}/100 words. Keep the explanation short; an invalid draft remains on this device until corrected.</p><button onClick={()=>onChange(terms.filter(x=>x.id!==t.id))}>Remove concept</button></>:<><h2>{t.term}</h2><p><strong>What it means:</strong> {t.definition}</p><p><strong>Why it matters:</strong> {t.purpose}</p><p><strong>Example:</strong> {t.example}</p></>}</article>)}</section>;
+ return <section className="glossary-entries" aria-label="Concept glossary">
+  <div className="glossary-controls"><label className="field-label">Find a term<input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search every topic, definition and example"/></label>
+   <label className="field-label">Topic<select value={query?'all':activeTopic} onChange={e=>{setTopic(e.target.value);setQuery('');}}><option value="all">All topics</option>{groups.map(g=><option key={g.id} value={g.id}>{g.title} ({g.terms.length})</option>)}</select></label>
+  </div>
+  <p>{selected.length} of {terms.length} concepts. Dotted terms in chapters open these same explanations.</p>
+  {!editing&&<p className="glossary-instruction">Choose a topic or search across all of them. Each row shows the meaning; open it for the complete definition, purpose and example.</p>}
+  {error&&<p role="alert">{error}</p>}
+  {editing&&<button onClick={()=>{if(terms.length>=240){setError('Keep up to 240 concepts.');return;}onChange([...terms,{id:'term-'+crypto.randomUUID(),term:'New concept',aliases:[],definition:'Add a clear definition.',purpose:'Explain its purpose.',example:'Connect it to a mission.'}]);setQuery('New concept');}}>Add concept</button>}
+  {!selected.length&&<p>No matching concepts. Try another name or clear the search.</p>}
+  {groupGlossary(selected).map(group=><section className="glossary-topic" key={group.id} aria-label={group.title}>
+   <h2>{group.title} <small>{group.terms.length}</small></h2>
+   {!editing&&<div className="glossary-columns" aria-hidden="true"><span>Term</span><span>What it means</span></div>}
+   {group.terms.map(t=>editing?<article key={t.id} className="glossary-entry">
+    <label className="field-label">Term<input maxLength={100} value={t.term} onChange={e=>update(t.id,'term',e.target.value)}/></label>
+    <label className="field-label">Other names separated by commas<input value={t.aliases.join(', ')} onChange={e=>update(t.id,'aliases',e.target.value)}/></label>
+    {(['definition','purpose','example'] as const).map(k=><label key={k} className="field-label">{k==='definition'?'What it means':k==='purpose'?'Why it matters':'Example'}<textarea maxLength={1200} rows={2} value={t[k]} onChange={e=>update(t.id,k,e.target.value)}/></label>)}
+    <p>{[t.definition,t.purpose,t.example].join(' ').trim().split(/\s+/).length}/100 words. Keep the explanation short; an invalid draft remains on this device until corrected.</p>
+    <button onClick={()=>onChange(terms.filter(x=>x.id!==t.id))}>Remove concept</button>
+   </article>:<details key={t.id} className="glossary-row">
+    <summary><strong>{t.term}</strong><span className="glossary-meaning">{t.definition}</span><span className="glossary-expand" aria-hidden="true">+</span></summary>
+    <div className="glossary-detail">{t.aliases.length>0&&<p className="glossary-aliases">Also called: {t.aliases.join(', ')}</p>}<p><strong>Why it matters:</strong> {t.purpose}</p><p><strong>Example:</strong> {t.example}</p></div>
+   </details>)}
+  </section>)}
+ </section>;
 }

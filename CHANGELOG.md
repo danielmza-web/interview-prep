@@ -1,3 +1,10 @@
+# 18 October 2026 — compact topic glossary
+
+- Added persistent Glossary and Interview day shortcuts to desktop/mobile navigation.
+- Replaced long definition cards with compact rows grouped by topic, full-detail expansion and cross-topic search. Preserved all editing, export, history and hover content.
+- Moved existing comparison tables into an optional collapsed block and reduced glossary header spacing.
+- 59 public application tests and six ignored private audits (65 total); no cloud content or database changes.
+
 # 18 October 2026 — robotics vocabulary capacity
 
 - Expanded the shared glossary limit from 200 to 240 in editing, validation/import and the existing protected save contract.
