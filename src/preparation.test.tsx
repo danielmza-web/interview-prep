@@ -16,7 +16,7 @@ it('follows all four sessions deterministically regardless of record order',()=>
  expect(routeNeighbours('lab-guided')[1]).toBe('practice-profile');
  expect(routeNeighbours('interview-qa')[1]).toBe('rapid-review');
  expect(new Set(route).size).toBe(route.length);
- expect(sessions.reduce((sum,s)=>sum+s.minutes,10)).toBe(240);
+ expect(sessions.reduce((sum,s)=>sum+s.minutes,0)).toBe(270);
 });
 it('resumes from the saved position and tolerates old backups without it',()=>{
  expect(resumeId([row('lab-guided'),row('practice_route',{kind:'practice',note:'',response:'',completed:false,resumeSectionId:'lab-guided'})])).toBe('lab-guided');

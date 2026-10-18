@@ -65,3 +65,12 @@ Question sections retain their stable IDs and can add questionPriority, question
 The route includes a local-lab instruction record. The public application contains no personal seed, tutorials copied from private documents, local script execution or automatic synchronization of lab state. Private sources supply those records to the protected workspace.
 
 24 automated tests cover route boundaries, aliases, resume/backward compatibility, metadata validation, all 66 visible answers/group counts, canonical reuse, offline draft recovery, conflicts, in-flight writes, owner isolation and HTML sanitization. Browser review also checks desktop/mobile reading and actual cloud persistence. Generated PDF/Word snapshots live outside this repository.
+
+
+## Quick explanations and four sessions
+
+The route totals 270 minutes (75 + 70 + 60 + 65), plus a ten-minute final review. Dotted terms open one concise explanation by pointer, keyboard or tap. Essential definitions stay in the chapter. Related answers inside a chapter remain plain; the full bank offers help per answer.
+
+The private ref-glossary section supplies optional glossaryTerms entries (stable id, term, aliases, definition, purpose, example). Up to 80 entries are editable through Resources and tools. There is no public seed or extra database column. Client/import and migration 003 validate entries; the owner check, version guard and revision history remain in the existing save RPC. HTML annotations are display-only and never enter the editor or stored source. Glossary changes participate in backups, recovery drafts, conflicts, history and search. Older schema-1 backups remain compatible.
+
+48 web tests cover the existing workspace plus term boundaries, ambiguity, sanitization, 300 ms hover, keyboard/touch dismissal, unchanged refreshes, source preservation, editing, search and restoration. The local lab remains separate.

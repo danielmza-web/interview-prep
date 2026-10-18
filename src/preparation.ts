@@ -1,10 +1,10 @@
 import type {RecordRow, Section, Practice} from './types';
 export const route = ['start','learn-system','learn-network','learn-delivery','learn-messaging','learn-evidence','learn-incidents','lab-guided','practice-profile','practice-stories','practice-technical','practice-feedback','interview-qa','rapid-review'];
 export const sessions = [
- {title:'1 · Follow a mission',minutes:60,goal:'Understand the architecture, requests and deployment behind one factory delivery.',ids:route.slice(1,4)},
- {title:'2 · Diagnose the system',minutes:55,goal:'Connect messages, data and incident decisions to the same delivery.',ids:route.slice(4,7)},
- {title:'3 · Practise in Fleet-Lab',minutes:55,goal:'Complete the six local stages, then record what you observed here.',ids:['lab-guided']},
- {title:'4 · Rehearse the interview',minutes:60,goal:'Explain your background, three stories and priority answers aloud.',ids:route.slice(8,13)},
+ {title:'1 · Follow a mission',minutes:75,goal:'Understand the architecture, requests and deployment behind one factory delivery.',ids:route.slice(1,4)},
+ {title:'2 · Diagnose the system',minutes:70,goal:'Connect messages, data and incident decisions to the same delivery.',ids:route.slice(4,7)},
+ {title:'3 · Practise in Fleet-Lab',minutes:60,goal:'Complete the six local stages, then record what you observed here.',ids:['lab-guided']},
+ {title:'4 · Rehearse the interview',minutes:65,goal:'Explain your background, three stories and priority answers aloud.',ids:route.slice(8,13)},
 ];
 export const aliases:Record<string,string> = {
  'ref-ask':'practice-feedback','ref-question-bank':'interview-qa','ref-distributed-deep':'learn-system','ref-robotics-deep':'learn-system',

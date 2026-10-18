@@ -1,7 +1,10 @@
--- Current optional metadata contract. Applied through the Supabase migration tool; permissions are preserved.
-create or replace function public.save_prep_record(record_id text, new_payload jsonb, expected_version bigint)
-returns jsonb language plpgsql security definer set search_path='' as $$
-declare who uuid := auth.uid(); current_row public.prep_records; saved public.prep_records;
+CREATE OR REPLACE FUNCTION public.save_prep_record(record_id text, new_payload jsonb, expected_version bigint)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare who uuid := auth.uid(); current_row public.prep_records; saved public.prep_records; glossary_item jsonb;
 begin
  if who is null or not public.prep_is_owner() then raise exception 'ACCESS_DENIED' using errcode='42501'; end if;
  if record_id !~ '^[a-z0-9][a-z0-9_-]{0,119}$' or expected_version<0 or new_payload is null or octet_length(new_payload::text)>2000000 then raise exception 'INVALID_RECORD';end if;
@@ -36,6 +39,24 @@ begin
   if exists(select 1 from jsonb_array_elements(new_payload->'links') x where jsonb_typeof(x)<>'string') then raise exception 'INVALID_LINKS';end if;
  end if;
  if new_payload ? 'resumeSectionId' and (jsonb_typeof(new_payload->'resumeSectionId')<>'string' or new_payload->>'resumeSectionId' !~ '^[a-z0-9][a-z0-9_-]{0,119}$') then raise exception 'INVALID_RESUME_ID';end if;
+ -- Optional glossary entries use the existing versioned payload.
+ if new_payload ? 'glossaryTerms' then
+  if new_payload->>'kind'<>'section' or jsonb_typeof(new_payload->'glossaryTerms') is distinct from 'array' then raise exception 'INVALID_GLOSSARY';end if;
+  if jsonb_array_length(new_payload->'glossaryTerms')>80 then raise exception 'INVALID_GLOSSARY';end if;
+  if (select count(*)<>count(distinct x->>'id') from jsonb_array_elements(new_payload->'glossaryTerms') x) then raise exception 'INVALID_GLOSSARY';end if;
+  for glossary_item in select value from jsonb_array_elements(new_payload->'glossaryTerms') loop
+   if jsonb_typeof(glossary_item) is distinct from 'object'
+    or jsonb_typeof(glossary_item->'id') is distinct from 'string' or (glossary_item->>'id') !~ '^term-[a-z0-9-]{1,90}$'
+    or jsonb_typeof(glossary_item->'term') is distinct from 'string' or length(glossary_item->>'term') not between 1 and 100
+    or jsonb_typeof(glossary_item->'aliases') is distinct from 'array'
+    or jsonb_typeof(glossary_item->'definition') is distinct from 'string' or length(glossary_item->>'definition')>1200
+    or jsonb_typeof(glossary_item->'purpose') is distinct from 'string' or length(glossary_item->>'purpose')>1200
+    or jsonb_typeof(glossary_item->'example') is distinct from 'string' or length(glossary_item->>'example')>1200
+    then raise exception 'INVALID_GLOSSARY';end if;
+   if jsonb_array_length(glossary_item->'aliases')>8 or exists(select 1 from jsonb_array_elements(glossary_item->'aliases') a where jsonb_typeof(a) is distinct from 'string' or length(a#>>'{}') not between 1 and 100) then raise exception 'INVALID_GLOSSARY';end if;
+   if cardinality(regexp_split_to_array(trim(concat_ws(' ',glossary_item->>'definition',glossary_item->>'purpose',glossary_item->>'example')),E'\\s+'))>100 then raise exception 'INVALID_GLOSSARY';end if;
+  end loop;
+ end if;
  -- Serialize both new records and updates; two inserts cannot bypass the version check.
  perform pg_advisory_xact_lock(hashtextextended(who::text||':'||record_id,0));
  select * into current_row from public.prep_records where owner_id=who and id=record_id for update;
@@ -45,6 +66,4 @@ begin
  insert into public.prep_revisions(owner_id,id,payload,version,updated_at) values(who,record_id,saved.payload,saved.version,saved.updated_at);
  return jsonb_build_object('id',saved.id,'payload',saved.payload,'version',saved.version,'updated_at',saved.updated_at);
 end;
-$$;
-revoke all on function public.save_prep_record(text,jsonb,bigint) from public,anon;
-grant execute on function public.save_prep_record(text,jsonb,bigint) to authenticated;
+$function$;
