@@ -34,7 +34,7 @@ it('skips archived or missing route steps and recovers a stale resume position',
 it('offers a persistent soft-night theme and keeps queued online edits distinct from connection failures',async()=>{
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here'})]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Four sessions. One connected route.');
+ await screen.findByText('Two hours. Four focused blocks.');
  fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));
  fireEvent.click(screen.getByRole('button',{name:'Use light mode'}));
  expect(document.documentElement.dataset.theme).toBe('light');
@@ -57,17 +57,17 @@ it('renders 66 visible answers in 24/30/12 groups and keeps administration secon
  const qs=Array.from({length:66},(_,i)=>row('question-'+(i<29?'b-'+String(i+1).padStart(2,'0'):'t-'+String(i-28).padStart(2,'0')),{...section,area:'Reference',title:'Question '+i,answer:'<p>Visible answer '+i+'</p>',questionPriority:priorities[i<24?0:i<54?1:2],questionTopic:i%2?'Architecture':'Experience'}));
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here',title:'Your preparation'}),...qs]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Four sessions. One connected route.');
+ await screen.findByText('Two hours. Four focused blocks.');
  fireEvent.click(screen.getByRole('button',{name:'Interview Q&A'}));
  await screen.findByRole('heading',{name:'Interview Q&A'});
  expect(screen.getAllByText(/^Visible answer /)).toHaveLength(66);
- expect(screen.getByRole('link',{name:'Prepare first (24)'})).toBeTruthy();
- expect(screen.getByRole('link',{name:'Follow-up questions (30)'})).toBeTruthy();
- expect(screen.getByRole('link',{name:'Specific topics and role details (12)'})).toBeTruthy();
+ expect(screen.getByRole('option',{name:'Prepare first (24)'})).toBeTruthy();
+ expect(screen.getByRole('option',{name:'Follow-up questions (30)'})).toBeTruthy();
+ expect(screen.getByRole('option',{name:'Specific topics and role details (12)'})).toBeTruthy();
  expect(screen.queryByRole('button',{name:'Import'})).toBeNull();
  fireEvent.click(screen.getByLabelText('Hide answers to practise'));
  expect(screen.getAllByText('Show answer')).toHaveLength(66);
- await waitFor(()=>expect(localStorage.getItem('fieldnotes-drafts-ui')).toContain('interview-qa'));
+ expect(localStorage.getItem('fieldnotes-drafts-ui')||'').not.toContain('practice_route');
 });
 it('reuses a question answer inside Learn and opens the same editable record',async()=>{
  window.history.replaceState(null,'','#learn-system');
@@ -93,7 +93,8 @@ it('opens a route link at the beginning of its reading rather than keeping the o
  const scroll=vi.fn();Element.prototype.scrollIntoView=scroll;
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here',title:'Route home'}),row('learn-system',{...section,title:'First lesson'})]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Four sessions. One connected route.');
+ await screen.findByText('Two hours. Four focused blocks.');
+ fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));fireEvent.click(screen.getByRole('button',{name:/Full four-session course/}));await screen.findByText('Four sessions. One connected route.');
  fireEvent.click(screen.getByRole('link',{name:'First lesson'}));
  expect(await screen.findByRole('heading',{name:'First lesson'})).toBeTruthy();
  expect(scroll).toHaveBeenCalledWith({block:'start'});

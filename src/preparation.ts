@@ -7,7 +7,7 @@ export const sessions = [
  {title:'4 · Rehearse the interview',minutes:65,goal:'Explain your background, three stories and priority answers aloud.',ids:route.slice(8,13)},
 ];
 export const aliases:Record<string,string> = {
- 'ref-ask':'practice-feedback','ref-question-bank':'interview-qa','ref-distributed-deep':'learn-system','ref-robotics-deep':'learn-system',
+ 'practice-profile':'qa-about-me','practice-technical':'qa-architecture','ref-ask':'qa-role','ref-question-bank':'interview-qa','ref-distributed-deep':'learn-system','ref-robotics-deep':'learn-system',
  'ref-api-deep':'learn-network','ref-net-deep':'learn-network','ref-docker-deep':'learn-delivery',
  'ref-k8s-deep':'learn-delivery','ref-code-deep':'learn-delivery','ref-messaging-deep':'learn-messaging',
  'ref-sql-deep':'learn-evidence','ref-ops-deep':'learn-incidents','ref-people-deep':'learn-incidents',

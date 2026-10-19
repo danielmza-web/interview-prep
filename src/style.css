@@ -17,3 +17,7 @@
 .topbar{position:sticky;top:0;background:var(--raised);z-index:8;flex-shrink:0}.next-top{font-size:11px}.question-jumps{position:sticky;top:76px;background:var(--paper);z-index:4}.priority-group{scroll-margin-top:160px}@media(max-width:760px){.question-jumps{top:65px;padding:10px 0;gap:6px}.next-top{font-size:10px}.topbar{gap:5px}.topbar>.icon-button:not(.mobile-toggle){display:none}.priority-group{scroll-margin-top:205px}}
 
 #reading{scroll-margin-top:80px}@media(max-width:760px){#reading{scroll-margin-top:70px}}
+
+/* Final review keeps the canonical question bank readable on narrow screens. */
+.priority-badge{font-size:.65rem;color:var(--muted);white-space:normal;max-width:120px}.priority-group{scroll-margin-top:95px;outline-offset:5px}.question-heading{flex-wrap:wrap}.question-heading h3{flex:1;min-width:160px}.question-jumps{flex-wrap:wrap}.question-bank>.field-label{max-width:380px;margin:1rem 0}.subnav button{text-align:left}
+.question-jumps{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.question-jumps a{white-space:normal}.priority-group:focus{outline:2px solid var(--accent)}@media(max-width:600px){.question-jumps{grid-template-columns:1fr}.question-heading .priority-badge{max-width:none}.question-heading{gap:8px}.priority-group{scroll-margin-top:80px}}

@@ -1,3 +1,14 @@
+# 19 October 2026 — final review and canonical Q&A
+
+- Added a separate four-block final-review route with saved continuation and manual completion, preserving the old course.
+- Made topics primary for the complete question bank; retained priority filtering, visible answers and optional canonical expansions.
+- Redirected legacy profile/technical links and moved the full course/Learn/lab to secondary resources.
+- Added regression coverage for topic completeness, two-action discovery, route/resume, old progress preservation and optional answer content. No new dependencies, payload fields, tables or permissions.
+
+---
+
+Earlier notes below are historical; use the current instructions above.
+
 # 18 October 2026 — compact topic glossary
 
 - Added persistent Glossary and Interview day shortcuts to desktop/mobile navigation.

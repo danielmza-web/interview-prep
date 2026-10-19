@@ -1,3 +1,17 @@
+# Final review navigation
+
+The primary entry is now a two-hour final-review composition with four steps. The original four-session course remains in Resources and tools; all original records and old print summaries are compatible. Main navigation: Final review, Technical foundations, Interview Q&A, My Experience. Glossary and Interview day have direct shortcuts.
+
+src/finalReview.ts defines stable virtual steps and an exhaustive 66-question topic mapping. Answers are read from the existing canonical records. Optional deepBody renders inside each question card; the same expansion is editable on the canonical question page. Priority labels remain independent of topics. The new private review-foundations Section is not bundled into the application.
+
+Final continuation uses the existing Practice shape in practice_final_review, with resumeSectionId set to a stable review step. Completion uses ordinary practice_<step> records. It does not overwrite practice_route; Learn/lab continue to maintain the old course position. Old profile/technical links point to Q&A topics. Backups, offline drafts, conflicts and revision history use existing mechanisms; no migration or permission change.
+
+Validation: 64 public application tests plus 12 ignored private content checks (76 total). Test the public app with npm test; private fixtures are not shipped. Existing document files remain unchanged.
+
+---
+
+Earlier notes below are historical; use the current instructions above.
+
 # Fieldnotes
 
 A private study workspace with cloud-saved editing, personal answers and notes, revision history and portable exports. The application is public; workspace data is not included in this repository or its build.
