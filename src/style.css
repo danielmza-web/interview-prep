@@ -25,7 +25,7 @@
 .optional-return{position:sticky;top:76px;z-index:5;background:var(--raised);border:1px solid var(--accent);border-radius:8px;padding:14px 18px;margin:0 0 24px;display:flex;gap:16px;align-items:center}.optional-return p{font-size:12px;margin:4px 0 0}.optional-return button{flex-shrink:0;max-width:45%;white-space:normal}.review-support{margin:30px 0;border-top:1px solid var(--line);padding-top:24px}.support-links{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-top:16px}.workspace-map{margin:20px 0}.focus-number{white-space:nowrap}@media(max-width:760px){.optional-return{top:65px;display:block;padding:12px}.optional-return button{max-width:100%;margin-top:10px}.optional-return p{font-size:11px}}
 
 /* Topic jumps clear the sticky optional-return panel as well as the header. */
-.reading.consultation .priority-group{scroll-margin-top:260px}@media(max-width:760px){.reading.consultation .priority-group{scroll-margin-top:280px}}
+.reading.consultation .priority-group,.reading.consultation .review-question-group{scroll-margin-top:260px}@media(max-width:760px){.reading.consultation .priority-group,.reading.consultation .review-question-group{scroll-margin-top:280px}}
 .review-question-jumps{margin:1.5rem 0;padding:1rem;border:1px solid var(--line);border-radius:12px}
 .review-question-jumps p{margin:.6rem 0}
 .review-question-group{scroll-margin-top:100px;margin-top:2rem}

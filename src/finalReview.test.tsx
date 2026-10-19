@@ -100,7 +100,7 @@ it('includes all 24 prepare-first answers inside the first three blocks, with un
 });
 it('shows the complete personal selection in place using the canonical answer, and keeps only specific help optional',async()=>{
  seed();window.history.replaceState(null,'','#review-profile');render(<Workspace owner="final" preview onExit={()=>{}}/>);
- await screen.findByText('Answer b29');expect(screen.getAllByText(/^Answer /)).toHaveLength(16);
+ await screen.findByText('Answer b29');expect(screen.getAllByText(/^Answer /)).toHaveLength(16);fireEvent.click(screen.getByRole('button',{name:'Joining the team and your questions (4) ↓'}));expect(document.activeElement?.id).toBe('review-questions-3');
  for(const code of ['b01','b04','b17','b18','b29'])expect(screen.getByText('Answer '+code).closest('details')).toBeNull();
  expect(screen.getByText('Optional historical idea.').closest('details')?.open).toBe(false);
  const more=screen.getByText('If you need more · optional').closest('details')!;
