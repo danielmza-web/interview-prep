@@ -26,3 +26,7 @@
 
 /* Topic jumps clear the sticky optional-return panel as well as the header. */
 .reading.consultation .priority-group{scroll-margin-top:260px}@media(max-width:760px){.reading.consultation .priority-group{scroll-margin-top:280px}}
+.review-question-jumps{margin:1.5rem 0;padding:1rem;border:1px solid var(--line);border-radius:12px}
+.review-question-jumps p{margin:.6rem 0}
+.review-question-group{scroll-margin-top:100px;margin-top:2rem}
+.review-question-group>h2{padding-top:1rem;border-top:1px solid var(--line)}

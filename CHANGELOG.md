@@ -1,3 +1,13 @@
+# 19 October 2026 — essentials inside the review
+
+- Reordered stable steps: technical, personal, stories/cases, mock last.
+- Integrated 45 canonical main answers by theme, including every Prepare first question; left specific topics and longer explanations optional.
+- Added in-block question jumps, complete preparation instructions, explicit technical restart and check/repeat links in the mock.
+- Preserved 66 bank questions, 24/30/12 priorities, notes, completion flags, both course positions, exports and access policies.
+- Automated verification: 86 checks passed; built application and public-content scan passed. Publication evidence is recorded separately.
+
+---
+
 # 19 October 2026 — connected review flows
 
 - Extended the four-block review to 140 minutes and clarified the role of every learning surface.

@@ -1,3 +1,17 @@
+# Complete final-review blocks · 19 October 2026
+
+Follow Final review in this order: **Technical foundations (60 min) → Introduction and personal answers (25 min) → Stories and difficult situations (25 min) → Mock interview (30 min)**. The estimate remains 2 h 20 min, plus ten minutes on Interview day. The full course and lab remain independent resources.
+
+The first three blocks now display 45 canonical main answers in thematic groups: 18 technical, 16 personal and 11 case questions, including all 24 Prepare first questions. The remaining 21 bank questions and longer variants are available for specific or deeper consultation. The full bank still has 66 questions and priority counts 24/30/12. In-block shortcuts scroll directly to question groups. The mock is a twenty-minute simulation followed by ten minutes checking and repeating weak answers.
+
+Saved progress uses the same stable step IDs; existing completion, responses and notes are retained. Continue respects the saved block. A separate explicit technical restart lets the reader begin with technical foundations without clearing completed flags. Old technical notes appear in the technical block. Optional chained visits and returns keep their previous behaviour. No new fields, dependencies, permissions or schema changes.
+
+Important answers render directly from their original editable question records, including technical foundations (whose private questionIds do not control the guided selection). Presentation grouping is defined by src/finalReview.ts. Editing a canonical answer updates the bank and the review together. Private sources and snapshots stay outside the public app.
+
+Validation: 86 automated checks (72 public app tests and 14 ignored private audits), production build and public-content scan pass. The 12/2-page document files are unchanged. Live release evidence is recorded separately after publication.
+
+---
+
 # Connected review and consultation modes
 
 The final route is 140 minutes (25/25/60/30); the foundation is included as block 3. Q&A, My Experience and Learn are optional supporting destinations. Each route block renders its current task, continuation criteria and targeted extra links.

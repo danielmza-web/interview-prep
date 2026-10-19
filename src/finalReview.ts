@@ -1,10 +1,31 @@
 import type {RecordRow,Practice,Section} from './types';
+// References only: every answer continues to come from its editable private record.
+export const reviewGroups:Record<string,{title:string;instruction:string;codes:string[]}[]>={
+ 'review-foundations':[
+  {title:'Architecture and robots',instruction:'Explain who requests, assigns and performs a mission, and which confirmation proves completion.',codes:['t01','t02','t03']},
+  {title:'Containers, scope and a safe release',instruction:'Compare the tools first; then describe a release and one recovery check. Helm is included here so its role is clear.',codes:['t04','t06','t08','t09','t05','t10']},
+  {title:'Requests and messages',instruction:'Follow a timeout without creating a duplicate mission, then explain live versus retained messages.',codes:['t14','t36','t19','t20']},
+  {title:'Data and evidence',instruction:'Name the evidence you would query, the metric denominator and how you would verify a suspected cause.',codes:['t22','t23','t24']},
+  {title:'Diagnosis and incident response',instruction:'Separate the symptom from the cause; explain containment, escalation, recovery and verification.',codes:['t11','t26']},
+ ],
+ 'review-profile':[
+  {title:'Introduction, motivation and direction',instruction:'Start with your introduction. Practise a clear reason for the move and a realistic direction for the next five years.',codes:['b01','b02','b03','b04','b21']},
+  {title:'What you offer and what you are developing',instruction:'Support a strength with evidence. Explain your development area and experience boundary honestly.',codes:['b05','b06','b07','b08']},
+  {title:'Learning, feedback and communication',instruction:'Explain how you learn, respond to feedback and make technical issues understandable to Operations.',codes:['b17','b18','b15']},
+  {title:'Joining the team and your questions',instruction:'Prepare your first-90-days approach and two questions to ask. Discuss support, travel and on-call expectations without assuming the conditions.',codes:['b22','b16','b27','b29']},
+ ],
+ 'review-cases':[
+  {title:'Ownership, independence and mentoring',instruction:'Use the three stories above. Name your contribution, the teams involved, the result and any remaining work.',codes:['b14','b23','b24','b20']},
+  {title:'Mistakes, disagreement and deadlines',instruction:'Practise each circumstance explicitly. Distinguish management disagreement from a disagreement with another team; avoid claiming an unverified outcome.',codes:['b10','b11','b12','b13']},
+  {title:'Problem solving and improvement',instruction:'Choose the closest real example. If the cause is unknown, describe how you collect evidence and escalate.',codes:['b09','b19','b25']},
+ ],
+};
 export const finalSteps=[
- {id:'review-profile',title:'Introduction and personal answers',minutes:25,goal:'Say your introduction, motivation, strengths, development area, five-year direction and experience boundary.',questions:['b01','b02','b03','b06','b07','b04','b08','b05']},
- {id:'review-cases',title:'Stories and difficult situations',minutes:25,goal:'Rehearse your three main stories, then practise a mistake, management disagreement, deadline and independent work.',questions:['b14','b20','b10','b11','b12','b23','b24']},
- {id:'review-foundations',title:'Technical foundations',minutes:60,goal:'Follow the mission, release, telemetry and failure flows; explain what each component does and what confirms success.',questions:[]},
- {id:'review-mock',title:'Technical questions and mock interview',minutes:30,goal:'Spend ten minutes on technical questions and twenty minutes speaking as in the real call.',questions:['t01','t03','t04','t05','t10','t11','t14','t19','t22','t24','t26','b29']},
-];
+ {id:'review-foundations',title:'Technical foundations',minutes:60,goal:'Study the complete flows, then practise the essential technical questions below in the same block.'},
+ {id:'review-profile',title:'Introduction and personal answers',minutes:25,goal:'Practise your background, direction, strengths, learning, feedback, first steps and questions for the interviewer.'},
+ {id:'review-cases',title:'Stories and difficult situations',minutes:25,goal:'Rehearse the three main stories and the important ownership, mistake, manager, deadline and problem-solving questions here.'},
+ {id:'review-mock',title:'Mock interview',minutes:30,goal:'Simulate the conversation for twenty minutes, then spend ten minutes checking and repeating your weakest answers.'},
+].map(step=>({...step,questions:(reviewGroups[step.id]||[]).flatMap(g=>g.codes)}));
 export const qaTopics=[
  {id:'qa-about-me',title:'About me and direction',codes:'b01 b02 b03 b04 b05 b06 b07 b08 b21'},
  {id:'qa-cases',title:'Cases and difficult situations',codes:'b09 b10 b11 b12 b13 b14 b19 b23 b24 b25'},
