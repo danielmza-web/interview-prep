@@ -1,3 +1,9 @@
+# Online UI release · 20 October 2026
+
+The final-review update is deployed through GitHub Pages (application commit 61ca523, successful run 39340010515). The following publishing follow-up exposes the existing home-section editor under Section tools and history; it uses the normal owner-scoped, version-checked save path. No authentication or access policy changes. Earlier local/unreleased notes below describe the preparation stage.
+
+---
+
 # Local unreleased review · 20 October 2026
 
 The revised final route keeps four blocks (60/25/25/30 minutes). Technical explanations precede the visible canonical question answers. The header is compact; the grouped page index and theory/practice links share a measured sticky offset. Optional visits retain their source through reloads. Search includes virtual review blocks and uses current labels. Glossary matching distinguishes ordinary factory wording from software concepts and preserves complete identifiers.
