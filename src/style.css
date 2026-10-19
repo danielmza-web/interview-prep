@@ -30,3 +30,21 @@
 .review-question-jumps p{margin:.6rem 0}
 .review-question-group{scroll-margin-top:100px;margin-top:2rem}
 .review-question-group>h2{padding-top:1rem;border-top:1px solid var(--line)}
+.review-block-nav button{gap:9px;line-height:1.45;font-size:12px}
+.review-block-nav button>span{font-size:10px;color:var(--muted);min-width:13px}
+.page-outline{display:none}.outline-mobile{margin:0 0 24px;border:1px solid var(--line);border-radius:8px;padding:12px 15px}
+.outline-mobile summary{cursor:pointer;font-size:13px;font-weight:650}
+.outline-mobile nav{display:flex;flex-direction:column;gap:6px;max-height:45vh;overflow-y:auto;margin-top:12px}
+.page-outline nav a,.outline-mobile nav a{text-decoration:none;font-size:12px;line-height:1.5;padding:7px 9px;border-left:2px solid transparent;color:var(--muted)}
+.page-outline nav a.outline-detail,.outline-mobile nav a.outline-detail{padding-left:20px}
+.page-outline nav a[aria-current],.outline-mobile nav a[aria-current]{background:var(--selected);color:var(--accent);border-left-color:var(--accent);font-weight:650}
+.reading h2[id^="page-"],.reading h3[id^="page-"]{scroll-margin-top:100px}
+.reading.consultation h2[id^="page-"],.reading.consultation h3[id^="page-"]{scroll-margin-top:260px}
+@media(min-width:1280px){
+ .has-outline .reading{width:calc(100% - 240px);margin-right:240px;padding-left:36px;padding-right:36px}
+ .page-outline{display:block;position:fixed;top:110px;right:18px;width:210px;max-height:calc(100vh - 135px);font-size:12px}
+ .page-outline>strong{display:block;font-size:13px}.page-outline>p{font-size:11px;color:var(--muted);margin:6px 0 12px;line-height:1.5}
+ .page-outline nav{display:flex;flex-direction:column;overflow-y:auto;max-height:calc(100vh - 225px);overscroll-behavior:contain}
+ .outline-mobile{display:none}
+}
+@media(max-width:760px){.reading.consultation h2[id^="page-"],.reading.consultation h3[id^="page-"]{scroll-margin-top:280px}}

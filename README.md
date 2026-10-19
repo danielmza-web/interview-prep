@@ -1,3 +1,15 @@
+# Navigation and the interview day review
+
+The left navigation always lists all four final-review blocks and marks the active block. Technical foundations is block 1, personal answers block 2, stories/cases block 3 and mock block 4. Selecting a block is an explicit route action. The sidebar no longer repeats technical foundations as a separate main category.
+
+On this page builds an index from visible reading headings and individual questions. Desktop uses a right rail from 1280 pixels; smaller screens use a collapsible index above the content. Clicking an item scrolls and focuses its heading without changing the page route or saved continuation. Scrolling updates the current item. Closed optional explanations and editors are excluded; opening detail or changing displayed content rebuilds the index. Generated heading IDs and focus attributes are display-only and are not saved into private HTML.
+
+Interview day is a ten-minute recall sequence after preparing the call: introduction 0–2, stories/cases 2–5, mission/release flows 5–7, diagnosis/experience boundary 7–9, questions/joining 9–10. The two-page support follows. Final review includes the essential 45 main answers; other resources add detail.
+
+Verification: 88 checks (74 public, 14 private) passed; production build and public-content checks passed. Documents are refreshed from scoped protected print records; 12/2 pages confirmed independently in PDF and Microsoft Word. No new schema, fields, dependencies or access permissions. Live publication evidence is recorded separately.
+
+---
+
 # Complete final-review blocks · 19 October 2026
 
 Follow Final review in this order: **Technical foundations (60 min) → Introduction and personal answers (25 min) → Stories and difficult situations (25 min) → Mock interview (30 min)**. The estimate remains 2 h 20 min, plus ten minutes on Interview day. The full course and lab remain independent resources.

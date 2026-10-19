@@ -25,8 +25,8 @@ it('resumes independently and recovers absent or invalid final positions without
 it('finds introduction, five years, manager and deadlines within two actions; filters do not create another bank',async()=>{
  seed();render(<Workspace owner="final" preview onExit={()=>{}}/>);await screen.findByRole('heading',{name:'Final interview preparation'});
  fireEvent.click(screen.getByRole('button',{name:'Interview Q&A'}));await screen.findByText('Answer b01');expect(screen.getAllByText(/^Answer /)).toHaveLength(66);
- fireEvent.click(screen.getByRole('link',{name:'About me and direction (9)'}));expect(screen.getByRole('link',{name:'Five years'})).toBeTruthy();
- fireEvent.click(screen.getByRole('link',{name:'Cases and difficult situations (10)'}));expect(screen.getByRole('link',{name:'Manager disagreement'})).toBeTruthy();expect(screen.getByRole('link',{name:'Missed deadline'})).toBeTruthy();
+ fireEvent.click(screen.getByRole('link',{name:'About me and direction (9)'}));expect(within(document.querySelector('.question-bank') as HTMLElement).getByRole('link',{name:'Five years'})).toBeTruthy();
+ fireEvent.click(screen.getByRole('link',{name:'Cases and difficult situations (10)'}));expect(within(document.querySelector('.question-bank') as HTMLElement).getByRole('link',{name:'Manager disagreement'})).toBeTruthy();expect(within(document.querySelector('.question-bank') as HTMLElement).getByRole('link',{name:'Missed deadline'})).toBeTruthy();
  fireEvent.change(screen.getByLabelText('Preparation priority'),{target:{value:'Prepare first'}});expect(screen.getAllByText(/^Answer /)).toHaveLength(24);
  fireEvent.change(screen.getByLabelText('Preparation priority'),{target:{value:'All priorities'}});expect(screen.getByText('Optional historical idea.').closest('details')?.open).toBe(false);
 });
@@ -70,12 +70,17 @@ it('keeps nested optional visits and reloads separate from both saved routes, th
  fireEvent.click(within(screen.getByRole('complementary',{name:'Optional reading'})).getByRole('button',{name:'Return to Introduction and personal answers'}));
  await screen.findByRole('heading',{name:'Introduction and personal answers'});expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();expect(screen.getByRole('button',{name:/Mark practised and continue/})).toBeTruthy();expect(sessionStorage.getItem('fieldnotes-review-return-final')).toBeNull();
 });
-it('consults foundations without advancing from personal practice and treats explicit route cards as route actions',async()=>{
- seed();render(<Workspace owner="final" preview onExit={()=>{}}/>);fireEvent.click(await screen.findByRole('button',{name:'Start final review'}));fireEvent.click(screen.getByRole('button',{name:/Mark reviewed and continue/}));
- fireEvent.click(screen.getByRole('button',{name:'Technical foundations'}));await screen.findByRole('heading',{name:'Technical foundations'});
- expect(screen.getByRole('complementary',{name:'Optional reading'})).toBeTruthy();expect(screen.queryByRole('button',{name:/Mark reviewed and continue/})).toBeNull();
- fireEvent.click(screen.getByRole('button',{name:'Final review'}));fireEvent.click(document.querySelector('a[href="#review-foundations"]')!);
- await screen.findByRole('heading',{name:'Technical foundations'});expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();expect(screen.getByRole('button',{name:'NextIntroduction and personal answers'})).toBeTruthy();
+it('keeps all four blocks visible in the left navigation and identifies the current block',async()=>{
+ seed();render(<Workspace owner="final" preview onExit={()=>{}}/>);await screen.findByRole('heading',{name:'Final interview preparation'});
+ const nav=screen.getByRole('navigation',{name:'Main navigation'});
+ for(const step of finalSteps)expect(within(nav).getByRole('button',{name:step.title})).toBeTruthy();
+ fireEvent.click(within(nav).getByRole('button',{name:'Stories and difficult situations'}));
+ await screen.findByRole('heading',{name:'Stories and difficult situations'});
+ expect(within(nav).getByRole('button',{name:'Stories and difficult situations'}).getAttribute('aria-current')).toBe('page');
+ expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();
+ fireEvent.click(within(nav).getByRole('button',{name:'Technical foundations'}));await screen.findByRole('heading',{name:'Technical foundations'});
+ expect(within(nav).getByRole('button',{name:'Technical foundations'}).getAttribute('aria-current')).toBe('page');
+ expect(screen.getByRole('button',{name:/Mark reviewed and continue/})).toBeTruthy();
 });
 it('validates owner-scoped return state and clears it when browser history returns to the source',async()=>{
  sessionStorage.setItem('fieldnotes-review-return-other','review-cases');expect(readReviewReturn('final','qa-cases')).toBeNull();

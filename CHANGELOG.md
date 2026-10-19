@@ -1,3 +1,12 @@
+# 19 October 2026 — navigation and pre-call recall
+
+- Added permanent direct links to the four review blocks with the current block highlighted.
+- Added a responsive page index with individual question jumps, scroll position, keyboard focus and dynamic updates.
+- Aligned Interview day and the concise document summaries with the current route; kept 12 and 2 pages in both formats.
+- Preserved question IDs, canonical answers, notes, progress, optional-return behaviour and database permissions. Detailed release evidence is stored privately.
+
+---
+
 # 19 October 2026 — essentials inside the review
 
 - Reordered stable steps: technical, personal, stories/cases, mock last.
