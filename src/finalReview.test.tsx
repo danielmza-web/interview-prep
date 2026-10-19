@@ -43,7 +43,7 @@ it('walks technical first, personal then cases and mock last; preserves earlier 
  view.unmount();window.history.replaceState(null,'','#start');render(<Workspace owner="final" preview onExit={()=>{}}/>);
  fireEvent.click(await screen.findByRole('button',{name:'Continue final review'}));await screen.findByRole('heading',{name:'Introduction and personal answers'});
  fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Stories and difficult situations'});
- fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Mock interview'});
+ fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Mock interview'});expect([...screen.getByRole('main').childNodes].some(n=>n.nodeType===3&&n.textContent?.trim()==='0')).toBe(false);
  fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Interview day'});expect(screen.getByText('4/4')).toBeTruthy();
  await waitFor(()=>expect(JSON.parse(localStorage.getItem('fieldnotes-preview-final')!).find((r:RecordRow)=>r.id==='practice_review-profile')?.payload.note).toBe('My final note'),{timeout:3500});
  expect(JSON.parse(localStorage.getItem('fieldnotes-preview-final')!).find((r:RecordRow)=>r.id==='practice_route')).toEqual(old);
