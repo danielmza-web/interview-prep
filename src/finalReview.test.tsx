@@ -55,7 +55,7 @@ it('keeps nested optional visits and reloads separate from both saved routes, th
  seed([old,row('learn-delivery',{...base,title:'Detailed deployments',area:'Learn'}),row('experience-career',{...base,title:'Career details',area:'My Experience'})]);
  let view=render(<Workspace owner="final" preview onExit={()=>{}}/>);fireEvent.click(await screen.findByRole('button',{name:'Start final review'}));
  fireEvent.click(screen.getByText('If you need more · optional'));fireEvent.click(screen.getByRole('button',{name:'More personal questions →'}));await screen.findByRole('heading',{name:'Interview Q&A'});
- expect(screen.getByRole('complementary',{name:'Optional reading'})).toBeTruthy();expect(screen.queryByRole('checkbox',{name:'Reviewed and understood'})).toBeNull();
+ expect(screen.getByRole('main').classList.contains('consultation')).toBe(true);expect(screen.getByRole('complementary',{name:'Optional reading'})).toBeTruthy();expect(screen.queryByRole('checkbox',{name:'Reviewed and understood'})).toBeNull();
  fireEvent.click(screen.getByRole('button',{name:'My Experience'}));await screen.findByRole('heading',{name:'Career details'});
  fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));fireEvent.click(screen.getByRole('button',{name:'Detailed deployments'}));await screen.findByRole('heading',{name:'Detailed deployments'});
  await waitFor(()=>expect(JSON.parse(localStorage.getItem('fieldnotes-preview-final')!).find((r:RecordRow)=>r.id==='practice_final_review')?.payload.resumeSectionId).toBe('review-profile'),{timeout:3500});
