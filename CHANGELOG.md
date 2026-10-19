@@ -1,3 +1,12 @@
+# 19 October 2026 — connected review flows
+
+- Extended the four-block review to 140 minutes and clarified the role of every learning surface.
+- Added optional consultation with owner-scoped session return, preserved route positions, no automatic completion and explicit return controls.
+- Added two allowlisted responsive diagrams for request/confirmation and code/release flow; retained the existing editor/export contract.
+- Added continuation criteria and targeted optional links. The completed route points to Interview day. No payload or permission changes.
+
+---
+
 # 19 October 2026 — final review and canonical Q&A
 
 - Added a separate four-block final-review route with saved continuation and manual completion, preserving the old course.

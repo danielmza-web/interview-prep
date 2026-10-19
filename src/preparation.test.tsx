@@ -8,7 +8,7 @@ import {validatePayload,parseBackup,backup} from './types';
 import type {RecordRow,Section} from './types';
 const section:Section={kind:'section',title:'Lesson',subtitle:'Study',area:'Learn',order:1,body:'<p>Full explanation.</p>',core:false,minutes:15,archived:false};
 const row=(id:string,payload:RecordRow['payload']=section):RecordRow=>({id,payload,version:1,updated_at:'2026-10-17'});
-beforeEach(()=>{Element.prototype.scrollIntoView=()=>{};localStorage.clear();window.history.replaceState(null,'','#start');Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
+beforeEach(()=>{Element.prototype.scrollIntoView=()=>{};localStorage.clear();sessionStorage.clear();window.history.replaceState(null,'','#start');Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
 afterEach(cleanup);
 it('follows all four sessions deterministically regardless of record order',()=>{
  expect(routeNeighbours('learn-delivery')).toEqual(['learn-network','learn-messaging']);
@@ -34,7 +34,7 @@ it('skips archived or missing route steps and recovers a stale resume position',
 it('offers a persistent soft-night theme and keeps queued online edits distinct from connection failures',async()=>{
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here'})]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Two hours. Four focused blocks.');
+ await screen.findByText('One route. Four focused blocks.');
  fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));
  fireEvent.click(screen.getByRole('button',{name:'Use light mode'}));
  expect(document.documentElement.dataset.theme).toBe('light');
@@ -57,7 +57,7 @@ it('renders 66 visible answers in 24/30/12 groups and keeps administration secon
  const qs=Array.from({length:66},(_,i)=>row('question-'+(i<29?'b-'+String(i+1).padStart(2,'0'):'t-'+String(i-28).padStart(2,'0')),{...section,area:'Reference',title:'Question '+i,answer:'<p>Visible answer '+i+'</p>',questionPriority:priorities[i<24?0:i<54?1:2],questionTopic:i%2?'Architecture':'Experience'}));
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here',title:'Your preparation'}),...qs]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Two hours. Four focused blocks.');
+ await screen.findByText('One route. Four focused blocks.');
  fireEvent.click(screen.getByRole('button',{name:'Interview Q&A'}));
  await screen.findByRole('heading',{name:'Interview Q&A'});
  expect(screen.getAllByText(/^Visible answer /)).toHaveLength(66);
@@ -93,7 +93,7 @@ it('opens a route link at the beginning of its reading rather than keeping the o
  const scroll=vi.fn();Element.prototype.scrollIntoView=scroll;
  localStorage.setItem('fieldnotes-preview-ui',JSON.stringify([row('start',{...section,area:'Start here',title:'Route home'}),row('learn-system',{...section,title:'First lesson'})]));
  render(<Workspace owner="ui" preview onExit={()=>{}}/>);
- await screen.findByText('Two hours. Four focused blocks.');
+ await screen.findByText('One route. Four focused blocks.');
  fireEvent.click(screen.getByRole('button',{name:'Resources and tools'}));fireEvent.click(screen.getByRole('button',{name:/Full four-session course/}));await screen.findByText('Four sessions. One connected route.');
  fireEvent.click(screen.getByRole('link',{name:'First lesson'}));
  expect(await screen.findByRole('heading',{name:'First lesson'})).toBeTruthy();

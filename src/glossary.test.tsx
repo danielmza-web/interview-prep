@@ -52,7 +52,7 @@ it('explains acronym plurals and full names in comparison cells without partial 
  expect([...d.querySelectorAll('button')].map(b=>b.textContent)).toEqual(['AGVs','Automated guided vehicles','AMRs']);
  expect(d.querySelector('p')?.textContent).toBe('AGVs and AGV share a category; XAGV is not an acronym.');
 });
-beforeEach(()=>{localStorage.clear();window.history.replaceState(null,'','#learn-system');Element.prototype.scrollIntoView=()=>{};Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
+beforeEach(()=>{localStorage.clear();sessionStorage.clear();window.history.replaceState(null,'','#learn-system');Element.prototype.scrollIntoView=()=>{};Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
 afterEach(()=>{cleanup();vi.useRealTimers();});
 function view(html=base.body){return render(<GlossaryProvider terms={[term]} resetKey="lesson"><StudyContent html={html}/></GlossaryProvider>);}
 it('validates concise entries and keeps old schema-one backups compatible',()=>{expect(validGlossary([term])).toBe(true);expect(validGlossary(Array.from({length:240},(_,i)=>({...term,id:'term-'+i})))).toBe(true);expect(validGlossary([term,term])).toBe(false);expect(validGlossary([{...term,aliases:[4]}])).toBe(false);expect(validGlossary([{...term,definition:'x '.repeat(101)}])).toBe(false);expect(validGlossary(Array.from({length:241},(_,i)=>({...term,id:'term-'+i})))).toBe(false);expect(validatePayload({...base,glossaryTerms:[term]})).toBe(true);expect(parseBackup(JSON.stringify(backup([row('learn-system',base)])))[0].payload).toEqual(base);expect(parseBackup(JSON.stringify(backup([row('ref-glossary',{...base,glossaryTerms:[term]})])))[0].payload).toEqual({...base,glossaryTerms:[term]});});

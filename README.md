@@ -1,3 +1,15 @@
+# Connected review and consultation modes
+
+The final route is 140 minutes (25/25/60/30); the foundation is included as block 3. Q&A, My Experience and Learn are optional supporting destinations. Each route block renders its current task, continuation criteria and targeted extra links.
+
+src/reviewJourney.tsx stores only an allowlisted return target in owner-scoped sessionStorage. Explicit route/card/Next actions restore route mode; nested optional links and reloads retain the source. Optional views suppress both continuation autosaves and completion controls; course navigation remains explicit. Schema-1 payloads, private notes and old links remain compatible.
+
+Two diagram IDs were added to the existing application-defined graphic contract: mission-flow-v1 and release-flow-v1. No arbitrary imported SVG is accepted; editing, backups and Markdown retain safe IDs and textual explanations. No database field, permission or migration change.
+
+Validation: 69 public application tests and 14 ignored private audits (83 total), including nested optional visits, reload, history return, course-state preservation, complete-review completion and diagram editing/export.
+
+---
+
 # Final review navigation
 
 The primary entry is now a two-hour final-review composition with four steps. The original four-session course remains in Resources and tools; all original records and old print summaries are compatible. Main navigation: Final review, Technical foundations, Interview Q&A, My Experience. Glossary and Interview day have direct shortcuts.

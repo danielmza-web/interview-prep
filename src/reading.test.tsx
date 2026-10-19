@@ -39,6 +39,6 @@ it('does not guess language, execute embedded HTML or retain presentation classe
 it('keeps language and text through plain editing and Markdown export',()=>{
  const original='<pre><code class="language-go">return battery &gt;= 20\n</code></pre>';const editor=new CoreEditor({element:document.createElement('div'),extensions:[StarterKit],content:safe(original)});expect(editor.getHTML()).toContain('language-go');expect(editor.getHTML()).not.toContain('hljs-');editor.commands.insertContentAt(editor.state.doc.content.size,'<p>Edited note.</p>');const output=safe(editor.getHTML());expect(output).toContain('language-go');expect(markdown(output)).toContain('```go\nreturn battery >= 20\n');editor.destroy();
 });
-it('renders all eight safe diagrams with mobile alternatives and no glossary buttons inside SVG',()=>{
- expect(Object.keys(diagrams)).toHaveLength(8);for(const id of Object.keys(diagrams) as (keyof typeof diagrams)[]){const d=element(annotateTerms(diagramPlaceholder(id),[term('NATS'),term('Canary'),term('Mission ID',['M-105'])]));expect(d.querySelectorAll('svg')).toHaveLength(2);expect(d.querySelector('svg button')).toBeNull();expect(diagramHTML(id)).toBe(diagramHTML(id));}
+it('renders all ten safe diagrams with mobile alternatives and no glossary buttons inside SVG',()=>{
+ expect(Object.keys(diagrams)).toHaveLength(10);for(const id of Object.keys(diagrams) as (keyof typeof diagrams)[]){const d=element(annotateTerms(diagramPlaceholder(id),[term('NATS'),term('Canary'),term('Mission ID',['M-105'])]));expect(d.querySelectorAll('svg')).toHaveLength(2);expect(d.querySelector('svg button')).toBeNull();expect(diagramHTML(id)).toBe(diagramHTML(id));}
 });

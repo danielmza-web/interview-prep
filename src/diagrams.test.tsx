@@ -10,7 +10,7 @@ import {backup,parseBackup,type RecordRow,type Section} from './types';
 import {Workspace} from './App';
 const base:Section={kind:'section',title:'First lesson',subtitle:'A scope example',area:'Learn',order:1,body:'<p>Core explanation.</p>'+diagramPlaceholder('cluster-v1')+'<p>Editable caption.</p>',deepBody:'<p>Extra detail.</p>',core:false,minutes:20,archived:false};
 const row=(id:string,p:Partial<Section>={}):RecordRow=>({id,payload:{...base,...p},version:1,updated_at:'2026-10-18'});
-beforeEach(()=>{localStorage.clear();Element.prototype.scrollIntoView=()=>{};window.history.replaceState(null,'','#learn-system');Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
+beforeEach(()=>{localStorage.clear();sessionStorage.clear();Element.prototype.scrollIntoView=()=>{};window.history.replaceState(null,'','#learn-system');Object.defineProperty(navigator,'onLine',{value:true,configurable:true});});
 afterEach(cleanup);
 it('accepts only known placeholders and never imported executable graphics',()=>{
  const content=safe('<div data-study-diagram="cluster-v1"><svg onload="bad()"></svg></div><div data-study-diagram="unknown"><p>Useful fallback.</p></div><svg><script>bad()</script></svg>');
