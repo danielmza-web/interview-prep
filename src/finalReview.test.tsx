@@ -105,7 +105,7 @@ it('includes all 24 prepare-first answers inside the first three blocks, with un
 });
 it('shows the complete personal selection in place using the canonical answer, and keeps only specific help optional',async()=>{
  seed();window.history.replaceState(null,'','#review-profile');render(<Workspace owner="final" preview onExit={()=>{}}/>);
- await screen.findByText('Answer b29');expect(screen.getAllByText(/^Answer /)).toHaveLength(16);fireEvent.click(screen.getByRole('button',{name:'Joining the team and your questions (4) ↓'}));expect(document.activeElement?.id).toBe('review-questions-3');
+ await screen.findByText('Answer b29');expect(screen.getAllByText(/^Answer /)).toHaveLength(16);fireEvent.click(within(await screen.findByRole('navigation',{name:'Page index'})).getByRole('link',{name:'Joining the team and your questions'}));expect(document.activeElement?.id).toBe('heading-review-questions-3');
  for(const code of ['b01','b04','b17','b18','b29'])expect(screen.getByText('Answer '+code).closest('details')).toBeNull();
  expect(screen.getByText('Optional historical idea.').closest('details')?.open).toBe(false);
  const more=screen.getByText('If you need more · optional').closest('details')!;
@@ -121,4 +121,23 @@ it('offers an explicit technical restart while keeping an existing continuation 
  fireEvent.click(screen.getByRole('button',{name:'Start again with technical foundations →'}));await screen.findByRole('heading',{name:'Technical foundations'});
  expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();
  await waitFor(()=>expect(JSON.parse(localStorage.getItem('fieldnotes-preview-final')!).find((r:RecordRow)=>r.id==='practice_review-profile')).toEqual(done));
+});
+it('keeps the source when opening a canonical question through its title and a virtual review through search',async()=>{
+ seed();window.history.replaceState(null,'','#review-profile');render(<Workspace owner="final" preview onExit={()=>{}}/>);
+ const answer=await screen.findByText('Answer b04');fireEvent.click(within(answer.closest('article')!).getByRole('link',{name:'Five years'}));
+ await screen.findByRole('heading',{name:'Five years'});expect(screen.getByRole('complementary',{name:'Optional reading'})).toBeTruthy();
+ fireEvent.click(within(screen.getByRole('complementary',{name:'Optional reading'})).getByRole('button',{name:'Return to Introduction and personal answers'}));
+ await screen.findByRole('heading',{name:'Introduction and personal answers'});
+ fireEvent.change(screen.getByRole('textbox',{name:'Search your workspace'}),{target:{value:'Five years'}});
+ const results=screen.getByRole('main');expect(within(results).getByRole('button',{name:/Final review Introduction and personal answers/})).toBeTruthy();
+ fireEvent.click(within(results).getByRole('button',{name:/Interview Q&A Five years/}));await screen.findByRole('heading',{name:'Five years'});
+ expect(sessionStorage.getItem('fieldnotes-review-return-final')).toBe('review-profile');
+ await waitFor(()=>expect(JSON.parse(localStorage.getItem('fieldnotes-preview-final')!).find((r:RecordRow)=>r.id==='practice_final_review')?.payload.resumeSectionId).toBe('review-profile'),{timeout:3500});
+});
+it('keeps essential answers visible after using the optional hidden-answer mode in the bank',async()=>{
+ seed();render(<Workspace owner="final" preview onExit={()=>{}}/>);await screen.findByRole('heading',{name:'Final interview preparation'});
+ fireEvent.click(screen.getByRole('button',{name:'Interview Q&A'}));await screen.findByText('Answer b01');fireEvent.click(screen.getByLabelText('Hide answers to practise'));
+ expect(screen.getAllByText('Show answer')).toHaveLength(66);
+ fireEvent.click(screen.getByRole('button',{name:'Technical foundations'}));await screen.findByRole('heading',{name:'Technical foundations'});
+ expect(screen.getAllByText(/^Answer /)).toHaveLength(18);expect(screen.getByText('Answer t01').closest('details')).toBeNull();
 });

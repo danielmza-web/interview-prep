@@ -21,10 +21,10 @@ export const reviewGroups:Record<string,{title:string;instruction:string;codes:s
  ],
 };
 export const finalSteps=[
- {id:'review-foundations',title:'Technical foundations',minutes:60,goal:'Study the complete flows, then practise the essential technical questions below in the same block.'},
- {id:'review-profile',title:'Introduction and personal answers',minutes:25,goal:'Practise your background, direction, strengths, learning, feedback, first steps and questions for the interviewer.'},
- {id:'review-cases',title:'Stories and difficult situations',minutes:25,goal:'Rehearse the three main stories and the important ownership, mistake, manager, deadline and problem-solving questions here.'},
- {id:'review-mock',title:'Mock interview',minutes:30,goal:'Simulate the conversation for twenty minutes, then spend ten minutes checking and repeating your weakest answers.'},
+ {id:'review-foundations',title:'Technical foundations',minutes:60,goal:'Understand the system, then practise its essential interview answers.'},
+ {id:'review-profile',title:'Introduction and personal answers',minutes:25,goal:'Prepare your introduction, direction, strengths and expectations.'},
+ {id:'review-cases',title:'Stories and difficult situations',minutes:25,goal:'Use three real stories to answer ownership, coordination and difficult situations.'},
+ {id:'review-mock',title:'Mock interview',minutes:30,goal:'Speak for twenty minutes; check and repeat weak answers for ten.'},
 ].map(step=>({...step,questions:(reviewGroups[step.id]||[]).flatMap(g=>g.codes)}));
 export const qaTopics=[
  {id:'qa-about-me',title:'About me and direction',codes:'b01 b02 b03 b04 b05 b06 b07 b08 b21'},

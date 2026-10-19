@@ -1,3 +1,13 @@
+# Local unreleased review · 20 October 2026
+
+The revised final route keeps four blocks (60/25/25/30 minutes). Technical explanations precede the visible canonical question answers. The header is compact; the grouped page index and theory/practice links share a measured sticky offset. Optional visits retain their source through reloads. Search includes virtual review blocks and uses current labels. Glossary matching distinguishes ordinary factory wording from software concepts and preserves complete identifiers.
+
+This revision is prepared locally and has not been pushed or deployed. Private content edits, source backup and the device-preview fixture remain outside this public repository. No schema, payload fields, dependencies or access policies changed. Existing notes, progress, question IDs and printable summaries are preserved. The checked offline PDF editions remain 8/2 pages; browser printing continues to use current stored print summaries and depends on print settings.
+
+Local verification: 100 tests passed; TypeScript, production build and public-content checks passed. Desktop/mobile checks covered both themes, index focus and tracking, optional returns after reload and a two-tab local save/readback with the original note restored.
+
+---
+
 # Navigation and the interview day review
 
 The left navigation always lists all four final-review blocks and marks the active block. Technical foundations is block 1, personal answers block 2, stories/cases block 3 and mock block 4. Selecting a block is an explicit route action. The sidebar no longer repeats technical foundations as a separate main category.
@@ -6,7 +16,7 @@ On this page builds an index from visible reading headings and individual questi
 
 Interview day is a ten-minute recall sequence after preparing the call: introduction 0–2, stories/cases 2–5, mission/release flows 5–7, diagnosis/experience boundary 7–9, questions/joining 9–10. The two-page support follows. Final review includes the essential 45 main answers; other resources add detail.
 
-Verification: 88 checks (74 public, 14 private) passed; production build and public-content checks passed. Documents are refreshed from scoped protected print records; 12/2 pages confirmed independently in PDF and Microsoft Word. No new schema, fields, dependencies or access permissions. Live publication evidence is recorded separately.
+Historical verification for that edition: 88 checks (74 public, 14 private) passed; production build and public-content checks passed. That document edition had 12/2 pages in PDF and Microsoft Word. The current PDF edition is 8/2 pages, as noted above. No new schema, fields, dependencies or access permissions. Live publication evidence is recorded separately.
 
 ---
 

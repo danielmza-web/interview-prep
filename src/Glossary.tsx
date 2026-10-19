@@ -8,7 +8,13 @@ import {highlightCode} from './codeReading';
 type Help={term:GlossaryTerm;anchor:HTMLElement};
 const Context=createContext<{terms:GlossaryTerm[];open:Help|null;show:(term:GlossaryTerm,anchor:HTMLElement)=>void;close:()=>void;cancel:()=>void;schedule:()=>void}>({terms:[],open:null,show:()=>{},close:()=>{},cancel:()=>{},schedule:()=>{}});
 export function glossaryText(terms:GlossaryTerm[]=[]){return terms.map(t=>[t.term,...t.aliases,t.definition,t.purpose,t.example].join(' ')).join(' ');}
-function contextAllows(id:string,context:string){
+function contextAllows(id:string,context:string,name:string,before:string,after:string){
+ if((id==='term-readiness-probe'||id==='term-liveness-probe')&&/probe/i.test(name))return true;
+ if(id==='term-helm-release'&&/helm/i.test(name))return true;
+ if(id==='term-readiness-probe'&&/(inspection|vehicle|hardware|camera|project)\s*$/i.test(before))return false;
+ if(id==='term-process'&&/^\s*(engineer|improvement|automation|steps|team)/i.test(after))return false;
+ if(id==='term-image'&&/(defect|failure|fail|camera|comparison|training)\s*$/i.test(before))return false;
+ if(id==='term-service'&&/(customer|years of|civil)\s*$/i.test(before))return false;
  const rules:Record<string,RegExp>={
   'term-image':/docker|container|registry|template|artifact|packag/i,
   'term-build':/source|docker|\bCI\b|artifact|software|compil|pipeline|application|\btests?\b/i,
@@ -17,7 +23,7 @@ function contextAllows(id:string,context:string){
   'term-parameter':/function|battery|caller|argument|\bGo\b|C\+\+/i,
   'term-exception':/throw|C\+\+|error|function|handler/i,
   'term-helm-values':/Helm|chart/i,
-  'term-helm-release':/Helm|chart|installed/i,
+  'term-helm-release':/Helm|chart|values/i,
   'term-readiness-probe':/probe|Kubernetes|\bPods?\b|traffic|kubelet/i,
   'term-liveness-probe':/probe|Kubernetes|\bPods?\b|kubelet|restart/i,
   'term-process':/operating system|\bOS\b|\bPID\b|\bCPU\b|\bRAM\b|memory|\bprograms?\b|thread|execut|running process|process.*running|Linux|kill/i,
@@ -39,11 +45,16 @@ export function annotateTerms(html:string,terms:GlossaryTerm[]){
   const start=group.source.length;group.source+=node.data;group.nodes.push({node,start,end:group.source.length});prior=scope;
  }
  for(const [scope,{source,nodes}] of groups){
-  const context=(scope.closest('tr')||scope).textContent||source;
+  const rowContext=scope.closest('tr')?.textContent||'';
   const seen=new Set<string>(),matches:{start:number;end:number;t:GlossaryTerm}[]=[];let at=0;
   while(at<source.length){let best:typeof matches[number]|undefined;
-   for(const {name,t} of names){if(seen.has(t.id)||!contextAllows(t.id,context))continue;const sensitive=strict.has(name),hay=sensitive?source:source.toLowerCase(),needle=sensitive?name:name.toLowerCase();let start=hay.indexOf(needle,at);
-    while(start>=0){const end=start+name.length;if(!/[\p{L}\p{N}_]/u.test(source[start-1]||'')&&!/[\p{L}\p{N}_]/u.test(source[end]||'')){if(!best||start<best.start||(start===best.start&&end>best.end))best={start,end,t};break;}start=hay.indexOf(needle,start+1);}
+   for(const {name,t} of names){if(seen.has(t.id))continue;const sensitive=strict.has(name),hay=sensitive?source:source.toLowerCase(),needle=sensitive?name:name.toLowerCase();let start=hay.indexOf(needle,at);
+    while(start>=0){const end=start+name.length;
+     const context=source.slice(0,start).split(/\s+/).slice(-5).join(' ')+' '+source.slice(start,end)+' '+source.slice(end).split(/\s+/).slice(0,6).join(' ');
+     const token=(source.slice(0,start).match(/\S*$/)?.[0]||'')+(source.slice(start).match(/^\S*/)?.[0]||'');
+     const address=!!token&&(/https?:\/\/|\/[\w/-]+|[\w-]+\.[\w-]+[/:]/i.test(token));
+     const identifier=['term-mission-id','term-robot-id'].includes(t.id);
+     if(!/[\p{L}\p{N}_]/u.test(source[start-1]||'')&&!/[\p{L}\p{N}_]/u.test(source[end]||'')&&(!address||identifier)&&contextAllows(t.id,context+(scope.matches('td,th')?' '+rowContext:''),name,source.slice(0,start),source.slice(end))){if(!best||start<best.start||(start===best.start&&end>best.end))best={start,end,t};break;}start=hay.indexOf(needle,start+1);}
    }
    if(!best)break;matches.push(best);seen.add(best.t.id);at=best.end;
   }
@@ -58,7 +69,7 @@ export function annotateTerms(html:string,terms:GlossaryTerm[]){
 export function GlossaryProvider({terms,resetKey,children}:{terms:GlossaryTerm[];resetKey:string;children:React.ReactNode}){
  const [open,setOpen]=useState<Help|null>(null),[position,setPosition]=useState({left:12,top:12});const box=useRef<HTMLDivElement>(null),timer=useRef<ReturnType<typeof setTimeout>|undefined>(undefined);
  const cancel=()=>{clearTimeout(timer.current);};const close=()=>{cancel();setOpen(null);};const schedule=()=>{cancel();timer.current=setTimeout(()=>setOpen(null),180);};
- useEffect(()=>{close();},[resetKey,JSON.stringify(terms)]);
+ useLayoutEffect(()=>{close();},[resetKey,JSON.stringify(terms)]);
  useEffect(()=>()=>clearTimeout(timer.current),[]);
  useEffect(()=>{if(!open)return;open.anchor.setAttribute('aria-describedby','term-explanation');return()=>open.anchor.removeAttribute('aria-describedby');},[open]);
  useEffect(()=>{if(!open)return;const key=(e:KeyboardEvent)=>{if(e.key==='Escape')close();};const outside=(e:PointerEvent)=>{if(!box.current?.contains(e.target as Node)&&!open.anchor.contains(e.target as Node))close();};document.addEventListener('keydown',key);document.addEventListener('pointerdown',outside);return()=>{document.removeEventListener('keydown',key);document.removeEventListener('pointerdown',outside);};},[open]);

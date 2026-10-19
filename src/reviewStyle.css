@@ -1,0 +1,61 @@
+/* Reading hierarchy: content first; navigation metadata never enters saved HTML. */
+.final-review-page .breadcrumb{margin-bottom:14px}
+.final-review-page .title-row{margin-bottom:16px;align-items:flex-start}
+.final-review-page .title-row h1{font-size:clamp(28px,2.65vw,39px);line-height:1.16;margin:10px 0 12px;letter-spacing:-.6px}
+.reading.consultation .title-row h1{font-size:clamp(28px,2.65vw,39px);line-height:1.2}
+.final-review-page .title-row .lead{margin:0;line-height:1.6;max-width:70ch}
+.final-review-page .title-row .eyebrow{font-size:11px;letter-spacing:.1em}
+.final-review-page .prose{max-width:78ch}
+.review-instruction{font-size:14px;color:var(--muted);line-height:1.65;margin:12px 0 20px;max-width:78ch}
+.review-parts{display:flex;gap:12px;flex-wrap:wrap;border-block:1px solid var(--line);padding:10px 0;margin:8px 0 18px}
+.review-parts button{font-size:14px;padding:4px 8px;color:var(--accent)}
+.review-parts small,.review-part-title small{font:12px system-ui;color:var(--muted);margin-left:8px}
+.review-part-title{font-size:24px;line-height:1.3;margin:24px 0 14px;scroll-margin-top:var(--reading-offset,100px)}
+.review-question-group{margin-top:24px}
+.review-question-group>h2{font-size:25px;padding-top:12px;margin-bottom:8px}
+.group-instruction{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 12px}
+.related-questions{margin-top:26px}
+.question-card{padding:16px 0}
+.question-heading h3{font-size:18px;line-height:1.5;margin-bottom:8px}
+.answer-label{display:block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 5px}
+.theory-practice-link,.theory-return button{color:var(--accent);padding:4px 0;font-size:13px;text-align:left;line-height:1.5}
+.theory-practice-link{margin:0 0 18px}
+.theory-return{display:flex;gap:10px 24px;flex-wrap:wrap;margin:12px 0 20px}
+.optional-return{top:var(--toolbar-bottom,76px);gap:12px;padding:8px 12px;margin:0 0 12px;min-height:40px;z-index:6}
+.optional-return>span{font-size:11px;color:var(--muted)}
+.optional-return button{display:flex;align-items:center;gap:8px;max-width:none;font-size:13px;line-height:1.4;color:var(--accent);text-align:left;white-space:normal}
+.page-outline nav{margin-top:12px;max-height:calc(100vh - 165px)}
+.outline-part{display:flex;flex-direction:column}
+.outline-part>strong{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+.outline-group>div{display:flex;align-items:flex-start}
+.outline-group>div>a{flex:1;min-width:0}
+.outline-group>div>button{font-size:15px;min-width:28px;padding:5px;color:var(--muted)}
+.outline-group>a{display:block}
+.page-outline nav a,.outline-mobile nav a{font-size:12px;padding-block:6px}
+.outline-mobile{position:sticky;top:calc(var(--toolbar-bottom,76px) + var(--return-height,0px));z-index:7;background:var(--bg);padding:0;margin:0 0 14px;border-radius:6px}
+.outline-mobile>summary{padding:10px 12px;font-size:12px;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.outline-mobile nav{padding:0 10px 10px;margin:0;max-height:min(45vh,400px)}
+.home-notes:not([open]){margin-top:24px;font-size:13px;color:var(--muted)}
+.home-notes>summary{cursor:pointer}
+.reading h2[id],.reading h3[id],.reading [data-outline-anchor],.reading .review-question-group,.reading .priority-group,
+.reading.consultation h2[id],.reading.consultation h3[id],.reading.consultation .review-question-group,.reading.consultation .priority-group{scroll-margin-top:var(--reading-offset,100px)}
+@media(max-width:760px){
+ .topbar .search-box{flex:1 1 115px}
+ .topbar .save-status{display:block;max-width:72px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .final-review-page{padding-top:20px}
+ .final-review-page .title-row h1{font-size:30px}
+ .reading.consultation .title-row h1{font-size:30px}
+ .final-review-page .title-row .lead{font-size:14px}
+ .review-instruction{font-size:13px;margin-block:12px}
+ .review-part-title{font-size:22px;margin:18px 0 10px}
+ .review-parts{gap:8px;padding:7px 0;margin-bottom:14px}
+ .review-parts button{font-size:13px;padding:3px}
+ .review-question-group>h2{font-size:23px}
+ .question-heading h3{font-size:17px}
+ .question-heading .priority-badge{font-size:10px}
+ .optional-return{display:flex;padding:7px 10px;gap:8px}
+ .optional-return button{margin:0;max-width:none;font-size:12px}
+ .optional-return>span{font-size:10px}
+ .page-nav .review-continue{padding:10px}
+}
+@media print{.theory-practice-link,.theory-return,.review-parts,.outline-mobile,.page-outline{display:none!important}}

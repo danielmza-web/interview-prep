@@ -1,3 +1,11 @@
+# Local unreleased review · 20 October 2026
+
+The revised final route keeps four blocks (60/25/25/30 minutes). Technical explanations precede the visible canonical question answers. The header is compact; the grouped page index and theory/practice links share a measured sticky offset. Optional visits retain their source through reloads. Search includes virtual review blocks and uses current labels. Glossary matching distinguishes ordinary factory wording from software concepts and preserves complete identifiers.
+
+This revision is prepared locally and has not been pushed or deployed. Private content edits, source backup and the device-preview fixture remain outside this public repository. No schema, payload fields, dependencies or access policies changed. Existing notes, progress, question IDs and printable summaries are preserved. The checked offline PDF editions remain 8/2 pages; browser printing continues to use current stored print summaries and depends on print settings.
+
+---
+
 # 19 October 2026 — navigation and pre-call recall
 
 - Added permanent direct links to the four review blocks with the current block highlighted.

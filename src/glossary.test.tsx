@@ -13,6 +13,20 @@ it('keeps vehicle readiness and business processes distinct from technical probe
  expect(annotateTerms('<p>A Kubernetes readiness check gates traffic to a Pod.</p>',[readiness,process])).toContain('data-term-id="term-readiness-probe"');
  expect(annotateTerms('<p>The operating system runs processes.</p>',[readiness,process])).toContain('data-term-id="term-process"');
 });
+it('uses nearby context rather than an unrelated Kubernetes or Helm mention in the same paragraph',()=>{
+ const readiness={...term,id:'term-readiness-probe',term:'Readiness probe',aliases:['readiness']};
+ const release={...term,id:'term-helm-release',term:'Helm release',aliases:['release']};
+ const image={...term,id:'term-image',term:'Image',aliases:['images']};
+ const d=document.createElement('div');
+ d.innerHTML=annotateTerms('<p>I reviewed inspection readiness for a new vehicle and later studied Kubernetes. A Kubernetes readiness probe checks a Pod.</p><p>The vehicle release came first. Much later we studied a Helm release.</p><p>Camera images are useful. Docker image templates package software.</p>',[readiness,release,image]);
+ expect([...d.querySelectorAll('button')].map(b=>b.textContent)).toEqual(['readiness probe','Helm release','image']);
+});
+it('keeps routes and URLs intact while retaining complete example identifiers',()=>{
+ const api={...term,id:'term-api',term:'API',aliases:[]},mission={...term,id:'term-mission-id',term:'Mission ID',aliases:['M-105']};
+ const d=document.createElement('div');d.innerHTML=annotateTerms('<p>POST <code>/api/missions/M-105</code> and https://fleet.example/api. API handles <code>M-105</code>.</p>',[api,mission]);
+ expect([...d.querySelectorAll('button')].map(b=>b.textContent)).toEqual(['M-105','API']);
+ expect(d.textContent).toBe('POST /api/missions/M-105 and https://fleet.example/api. API handles M-105.');
+});
 const row=(id:string,payload:Section):RecordRow=>({id,payload,version:1,updated_at:'2026-10-18'});
 it('groups by stable IDs and keeps custom entries in a discoverable topic',()=>{
  const custom={...term,id:'term-my-custom-concept',term:'Custom'};
