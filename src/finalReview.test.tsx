@@ -30,9 +30,9 @@ it('finds introduction, five years, manager and deadlines within two actions; fi
  fireEvent.change(screen.getByLabelText('Preparation priority'),{target:{value:'All priorities'}});expect(screen.getByText('Optional historical idea.').closest('details')?.open).toBe(false);
 });
 it('walks all four final blocks, saves completion and resumes without touching old notes or course position',async()=>{
- const old=row('practice_route',{kind:'practice',note:'Original note',response:'Original answer',completed:false,resumeSectionId:'lab-guided'});seed([old]);
+ const old=row('practice_route',{kind:'practice',note:'Original note',response:'Original answer',completed:false,resumeSectionId:'lab-guided'});seed([old,row('practice_practice-profile',{kind:'practice',note:'Earlier introduction note',response:'Earlier spoken answer',completed:true})]);
  const view=render(<Workspace owner="final" preview onExit={()=>{}}/>);await screen.findByRole('button',{name:'Start final review'});fireEvent.click(screen.getByRole('button',{name:'Start final review'}));
- await screen.findByRole('heading',{name:'Introduction and personal answers'});fireEvent.change(screen.getByLabelText('Personal notes'),{target:{value:'My final note'}});
+ await screen.findByRole('heading',{name:'Introduction and personal answers'});expect((screen.getByLabelText('Earlier personal practice notes') as HTMLTextAreaElement).value).toBe('Earlier introduction note');expect((screen.getByLabelText('Earlier personal practice answer') as HTMLTextAreaElement).value).toBe('Earlier spoken answer');fireEvent.change(screen.getByLabelText('Personal notes'),{target:{value:'My final note'}});
  fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Stories and difficult situations'});expect(screen.getByText('1/4')).toBeTruthy();
  fireEvent.click(screen.getByRole('button',{name:/Mark practised and continue/}));await screen.findByRole('heading',{name:'Technical foundations'});expect(screen.getByText('Foundation comparison.')).toBeTruthy();
  await waitFor(()=>{const saved=JSON.parse(localStorage.getItem('fieldnotes-preview-final')!);expect((saved.find((r:RecordRow)=>r.id==='practice_final_review').payload as Practice).resumeSectionId).toBe('review-foundations');},{timeout:3500});

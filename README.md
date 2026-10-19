@@ -4,7 +4,7 @@ The primary entry is now a two-hour final-review composition with four steps. Th
 
 src/finalReview.ts defines stable virtual steps and an exhaustive 66-question topic mapping. Answers are read from the existing canonical records. Optional deepBody renders inside each question card; the same expansion is editable on the canonical question page. Priority labels remain independent of topics. The new private review-foundations Section is not bundled into the application.
 
-Final continuation uses the existing Practice shape in practice_final_review, with resumeSectionId set to a stable review step. Completion uses ordinary practice_<step> records. It does not overwrite practice_route; Learn/lab continue to maintain the old course position. Old profile/technical links point to Q&A topics. Backups, offline drafts, conflicts and revision history use existing mechanisms; no migration or permission change.
+Earlier profile/feedback/technical notes remain accessible in optional panels, with editing against their original records. Final continuation uses the existing Practice shape in practice_final_review, with resumeSectionId set to a stable review step. Completion uses ordinary practice_<step> records. It does not overwrite practice_route; Learn/lab continue to maintain the old course position. Old profile/technical links point to Q&A topics. Backups, offline drafts, conflicts and revision history use existing mechanisms; no migration or permission change.
 
 Validation: 65 public application tests plus 12 ignored private content checks (77 total). Test the public app with npm test; private fixtures are not shipped. Existing document files remain unchanged.
 
