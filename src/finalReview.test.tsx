@@ -80,7 +80,7 @@ it('keeps all four blocks visible in the left navigation and identifies the curr
  expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();
  fireEvent.click(within(nav).getByRole('button',{name:'Technical foundations'}));await screen.findByRole('heading',{name:'Technical foundations'});
  expect(within(nav).getByRole('button',{name:'Technical foundations'}).getAttribute('aria-current')).toBe('page');
- expect(screen.getByRole('button',{name:/Mark reviewed and continue/})).toBeTruthy();
+ expect(screen.getByRole('button',{name:/Mark reviewed and continue/})).toBeTruthy();fireEvent.click(screen.getByRole('button',{name:'Interview day'}));await screen.findByRole('heading',{name:'Interview day'});expect(screen.queryByRole('complementary',{name:'Optional reading'})).toBeNull();
 });
 it('validates owner-scoped return state and clears it when browser history returns to the source',async()=>{
  sessionStorage.setItem('fieldnotes-review-return-other','review-cases');expect(readReviewReturn('final','qa-cases')).toBeNull();
