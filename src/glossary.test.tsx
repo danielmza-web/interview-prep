@@ -7,6 +7,12 @@ import {Workspace} from './App';
 import {groupGlossary} from './glossaryTopics';
 const term:GlossaryTerm={id:'term-pod',term:'Pod',aliases:['workload unit'],definition:'A workload unit containing containers.',purpose:'Groups related containers.',example:'One API Pod runs an API replica.'};
 const base:Section={kind:'section',title:'Concepts',subtitle:'Read and connect',area:'Learn',order:1,body:'<p>A Pod contains containers. Another Pod.</p>',core:false,minutes:20,archived:false};
+it('keeps vehicle readiness and business processes distinct from technical probes and operating-system processes',()=>{
+ const readiness={...term,id:'term-readiness-probe',term:'Readiness probe',aliases:['readiness']},process={...term,id:'term-process',term:'Process',aliases:['processes']};
+ expect(annotateTerms('<p>I reviewed new-vehicle readiness and process improvements.</p>',[readiness,process])).not.toContain('term-help');
+ expect(annotateTerms('<p>A Kubernetes readiness check gates traffic to a Pod.</p>',[readiness,process])).toContain('data-term-id="term-readiness-probe"');
+ expect(annotateTerms('<p>The operating system runs processes.</p>',[readiness,process])).toContain('data-term-id="term-process"');
+});
 const row=(id:string,payload:Section):RecordRow=>({id,payload,version:1,updated_at:'2026-10-18'});
 it('groups by stable IDs and keeps custom entries in a discoverable topic',()=>{
  const custom={...term,id:'term-my-custom-concept',term:'Custom'};

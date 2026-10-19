@@ -18,6 +18,9 @@ function contextAllows(id:string,context:string){
   'term-exception':/throw|C\+\+|error|function|handler/i,
   'term-helm-values':/Helm|chart/i,
   'term-helm-release':/Helm|chart|installed/i,
+  'term-readiness-probe':/probe|Kubernetes|\bPods?\b|traffic|kubelet/i,
+  'term-liveness-probe':/probe|Kubernetes|\bPods?\b|kubelet|restart/i,
+  'term-process':/operating system|\bOS\b|\bPID\b|\bCPU\b|\bRAM\b|memory|\bprograms?\b|thread|execut|running process|process.*running|Linux|kill/i,
  };
  return !rules[id]||rules[id].test(context);
 }
