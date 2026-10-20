@@ -9,6 +9,10 @@ type Help={term:GlossaryTerm;anchor:HTMLElement};
 const Context=createContext<{terms:GlossaryTerm[];open:Help|null;show:(term:GlossaryTerm,anchor:HTMLElement)=>void;close:()=>void;cancel:()=>void;schedule:()=>void}>({terms:[],open:null,show:()=>{},close:()=>{},cancel:()=>{},schedule:()=>{}});
 export function glossaryText(terms:GlossaryTerm[]=[]){return terms.map(t=>[t.term,...t.aliases,t.definition,t.purpose,t.example].join(' ')).join(' ');}
 function contextAllows(id:string,context:string,name:string,before:string,after:string){
+ if(id==='term-state'&&/^\s*(?:the|an?|my|your|our|its|their|whether|that)\b/i.test(after))return false;
+ if(id==='term-program'&&/(vehicle|onboarding|training|graduate|development)\s*$/i.test(before))return false;
+ if(id==='term-database-migration'&&!/database/i.test(name)&&/(platform|inspection|vehicle|team|career)\s*$/i.test(before))return false;
+ if(id==='term-trace'&&/^\s*(?:the|an?|creation|assignment|dispatch|IDs|identifiers|request generation)\b/i.test(after))return false;
  if((id==='term-readiness-probe'||id==='term-liveness-probe')&&/probe/i.test(name))return true;
  if(id==='term-helm-release'&&/helm/i.test(name))return true;
  if(id==='term-readiness-probe'&&/(inspection|vehicle|hardware|camera|project)\s*$/i.test(before))return false;
@@ -26,6 +30,10 @@ function contextAllows(id:string,context:string,name:string,before:string,after:
   'term-helm-release':/Helm|chart|values/i,
   'term-readiness-probe':/probe|Kubernetes|\bPods?\b|traffic|kubelet/i,
   'term-liveness-probe':/probe|Kubernetes|\bPods?\b|kubelet|restart/i,
+  'term-database-migration':/database|schema|SQL|tables?|columns?|data migration/i,
+  'term-program':/software|code|instructions|execut|operating system|\bOS\b|process|running|computer|memory/i,
+  'term-volume':/docker|compose|container|storage|persistent|persisted|mount|filesystem|writable|database/i,
+  'term-topic':/Kafka|NATS|message|broker|publish|subscribe|partition|consumer|producer|subject|event stream/i,
   'term-process':/operating system|\bOS\b|\bPID\b|\bCPU\b|\bRAM\b|memory|\bprograms?\b|thread|execut|running process|process.*running|Linux|kill/i,
  };
  return !rules[id]||rules[id].test(context);

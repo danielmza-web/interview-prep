@@ -1,3 +1,9 @@
+# Final vocabulary audit · 20 October 2026
+
+Glossary help now distinguishes ordinary professional programmes, platform moves, the verb state, table topics and operational volume from their software/messaging/storage meanings. Narrow context rules preserve technical uses and leave saved content unchanged. Added regression coverage; no new dependency, payload field, schema, permission or layout change. Content and user data remain private.
+
+---
+
 # Online UI release · 20 October 2026
 
 The final-review update is deployed through GitHub Pages (application commit 61ca523, successful run 39340010515). The following publishing follow-up exposes the existing home-section editor under Section tools and history; it uses the normal owner-scoped, version-checked save path. No authentication or access policy changes. Earlier local/unreleased notes below describe the preparation stage.

@@ -1,3 +1,9 @@
+# Final vocabulary audit · 20 October 2026
+
+Contextual glossary matching distinguishes ordinary professional programmes, platform moves, the verb state, table topics and operational volume from their software, messaging and storage meanings. Added focused regression coverage; saved source HTML, payloads, dependencies, permissions and layout are unchanged. The production build and public-content scan pass.
+
+---
+
 # Online UI release · 20 October 2026
 
 The final-review update is deployed through GitHub Pages (application commit 61ca523, successful run 39340010515). The following publishing follow-up exposes the existing home-section editor under Section tools and history; it uses the normal owner-scoped, version-checked save path. No authentication or access policy changes. Earlier local/unreleased notes below describe the preparation stage.
